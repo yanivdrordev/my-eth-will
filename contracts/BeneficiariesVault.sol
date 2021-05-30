@@ -63,8 +63,12 @@ contract BeneficiariesVault {
         return beneficiariesAddresses.at(index);
     }
     
-    function owner() public view virtual returns (address) {
+    function owner() private view returns (address) {
         return _owner;
+    }
+
+    function isOwner() public view returns(bool){
+        return owner() == msg.sender;
     }
     
     
@@ -81,12 +85,12 @@ contract BeneficiariesVault {
     }
     
     modifier OwnerOrBeneficiary(address _address){
-         require(owner() == msg.sender || isContains(_address) ,"address is not owner or beneficiary");
+         require(isOwner() || isContains(_address) ,"address is not owner or beneficiary");
          _;       
     }
     
     modifier onlyOwner() {
-        require(owner() ==  msg.sender, "Ownable: caller is not the owner");
+        require(isOwner(), "Ownable: caller is not the owner");
         _;
     }
     
