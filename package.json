@@ -1,0 +1,26 @@
+{
+  "name": "my-eth-will",
+  "version": "1.0.0",
+  "description": "<h3>boilerplate for starting ethereum dapp with react truffle and metamask</h3> <p>You need to have truffle installed</p><br /> <code>npm install -g truffle</code> <br /><br /> <p>open a terminal in the project root directory and write</p> <code>truffle develop</code> <br /><br /> <p>copy the Mnemonic and import it to your metamask make sure you are on the localhost network</p> <p>in the develop console write</p> <code>migrate</code> <br /><br /> <p>In new terminal</p> <code>cd client</code><br /> <code>npm install</code><br/ > <code>npm start</code>",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yanivdrordev/my-eth-will.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yanivdrordev/my-eth-will/issues"
+  },
+  "homepage": "https://github.com/yanivdrordev/my-eth-will#readme",
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.1.0"
+  }
+}
