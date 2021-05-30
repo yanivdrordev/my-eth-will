@@ -42,9 +42,10 @@ function App() {
       // Get the contract instance.
       const networkId = await web3.eth.net.getId();
       const deployedNetwork = VaultFactoryContract.networks[networkId];
+      console.log(deployedNetwork.address);
       const instance = new web3.eth.Contract(
         VaultFactoryContract.abi,
-        '0x4A5FB5d941241E21c6fe7cf67D2fBd6857490ed8'
+        deployedNetwork.address
       );
 
       setContract(instance);
