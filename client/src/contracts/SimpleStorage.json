@@ -28,9 +28,9 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.8.0+commit.c7dfd78e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"get\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"x\",\"type\":\"uint256\"}],\"name\":\"set\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/yaniv/Desktop/etherum/my-ethe-vault/contracts/SimpleStorage.sol\":\"SimpleStorage\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/yaniv/Desktop/etherum/my-ethe-vault/contracts/SimpleStorage.sol\":{\"keccak256\":\"0x4ceeb60ceab71065c2b31aadb2fbfdf8053be12c31705f68281699bf5876de43\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://7154b1dd61718c8994fcfa21fef189e64620f41ddbeaf8cb8637132ee9a1e23f\",\"dweb:/ipfs/QmUkTYQJHcp2AF8mtALJ4mVNbvK86guUQGHdvxC3TsSb3c\"]}},\"version\":1}",
-  "bytecode": "0x608060405234801561001057600080fd5b5061012f806100206000396000f3fe6080604052348015600f57600080fd5b506004361060325760003560e01c806360fe47b11460375780636d4ce63c14604f575b600080fd5b604d600480360381019060499190608f565b6069565b005b60556073565b6040516060919060c2565b60405180910390f35b8060008190555050565b60008054905090565b60008135905060898160e5565b92915050565b60006020828403121560a057600080fd5b600060ac84828501607c565b91505092915050565b60bc8160db565b82525050565b600060208201905060d5600083018460b5565b92915050565b6000819050919050565b60ec8160db565b811460f657600080fd5b5056fea26469706673582212201682805e47b8476a8d61ffd1bb49f55cfaa5ca7c3eb469158b5c05112442f99164736f6c63430008000033",
-  "deployedBytecode": "0x6080604052348015600f57600080fd5b506004361060325760003560e01c806360fe47b11460375780636d4ce63c14604f575b600080fd5b604d600480360381019060499190608f565b6069565b005b60556073565b6040516060919060c2565b60405180910390f35b8060008190555050565b60008054905090565b60008135905060898160e5565b92915050565b60006020828403121560a057600080fd5b600060ac84828501607c565b91505092915050565b60bc8160db565b82525050565b600060208201905060d5600083018460b5565b92915050565b6000819050919050565b60ec8160db565b811460f657600080fd5b5056fea26469706673582212201682805e47b8476a8d61ffd1bb49f55cfaa5ca7c3eb469158b5c05112442f99164736f6c63430008000033",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.0+commit.c7dfd78e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"get\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"x\",\"type\":\"uint256\"}],\"name\":\"set\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/yaniv/Desktop/etherum/my-eth-will/contracts/SimpleStorage.sol\":\"SimpleStorage\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/yaniv/Desktop/etherum/my-eth-will/contracts/SimpleStorage.sol\":{\"keccak256\":\"0x4ceeb60ceab71065c2b31aadb2fbfdf8053be12c31705f68281699bf5876de43\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://7154b1dd61718c8994fcfa21fef189e64620f41ddbeaf8cb8637132ee9a1e23f\",\"dweb:/ipfs/QmUkTYQJHcp2AF8mtALJ4mVNbvK86guUQGHdvxC3TsSb3c\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b5061012f806100206000396000f3fe6080604052348015600f57600080fd5b506004361060325760003560e01c806360fe47b11460375780636d4ce63c14604f575b600080fd5b604d600480360381019060499190608f565b6069565b005b60556073565b6040516060919060c2565b60405180910390f35b8060008190555050565b60008054905090565b60008135905060898160e5565b92915050565b60006020828403121560a057600080fd5b600060ac84828501607c565b91505092915050565b60bc8160db565b82525050565b600060208201905060d5600083018460b5565b92915050565b6000819050919050565b60ec8160db565b811460f657600080fd5b5056fea2646970667358221220e2625f465097db9c321b6fa9a92915de1674e74755b5f9ccf8678fd551ebc1a864736f6c63430008000033",
+  "deployedBytecode": "0x6080604052348015600f57600080fd5b506004361060325760003560e01c806360fe47b11460375780636d4ce63c14604f575b600080fd5b604d600480360381019060499190608f565b6069565b005b60556073565b6040516060919060c2565b60405180910390f35b8060008190555050565b60008054905090565b60008135905060898160e5565b92915050565b60006020828403121560a057600080fd5b600060ac84828501607c565b91505092915050565b60bc8160db565b82525050565b600060208201905060d5600083018460b5565b92915050565b6000819050919050565b60ec8160db565b811460f657600080fd5b5056fea2646970667358221220e2625f465097db9c321b6fa9a92915de1674e74755b5f9ccf8678fd551ebc1a864736f6c63430008000033",
   "immutableReferences": {},
   "generatedSources": [],
   "deployedGeneratedSources": [
@@ -629,20 +629,20 @@
   "sourceMap": "57:176:2:-:0;;;;;;;;;;;;;;;;;;;",
   "deployedSourceMap": "57:176:2:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;104:53;;;;;;;;;;;;;:::i;:::-;;:::i;:::-;;161:70;;;:::i;:::-;;;;;;;:::i;:::-;;;;;;;;104:53;151:1;138:10;:14;;;;104:53;:::o;161:70::-;197:4;216:10;;209:17;;161:70;:::o;7:139:6:-;;91:6;78:20;69:29;;107:33;134:5;107:33;:::i;:::-;59:87;;;;:::o;152:262::-;;260:2;248:9;239:7;235:23;231:32;228:2;;;276:1;273;266:12;228:2;319:1;344:53;389:7;380:6;369:9;365:22;344:53;:::i;:::-;334:63;;290:117;218:196;;;;:::o;420:118::-;507:24;525:5;507:24;:::i;:::-;502:3;495:37;485:53;;:::o;544:222::-;;675:2;664:9;660:18;652:26;;688:71;756:1;745:9;741:17;732:6;688:71;:::i;:::-;642:124;;;;:::o;772:77::-;;838:5;827:16;;817:32;;;:::o;855:122::-;928:24;946:5;928:24;:::i;:::-;921:5;918:35;908:2;;967:1;964;957:12;908:2;898:79;:::o",
   "source": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\ncontract SimpleStorage {\n  uint storedData;\n\n  function set(uint x) public {\n    storedData = x;\n  }\n\n  function get() public view returns (uint) {\n    return storedData;\n  }\n}\n",
-  "sourcePath": "/home/yaniv/Desktop/etherum/my-ethe-vault/contracts/SimpleStorage.sol",
+  "sourcePath": "/home/yaniv/Desktop/etherum/my-eth-will/contracts/SimpleStorage.sol",
   "ast": {
-    "absolutePath": "/home/yaniv/Desktop/etherum/my-ethe-vault/contracts/SimpleStorage.sol",
+    "absolutePath": "/home/yaniv/Desktop/etherum/my-eth-will/contracts/SimpleStorage.sol",
     "exportedSymbols": {
       "SimpleStorage": [
-        406
+        412
       ]
     },
-    "id": 407,
+    "id": 413,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 385,
+        "id": 391,
         "literals": [
           "solidity",
           "^",
@@ -658,20 +658,20 @@
         "contractDependencies": [],
         "contractKind": "contract",
         "fullyImplemented": true,
-        "id": 406,
+        "id": 412,
         "linearizedBaseContracts": [
-          406
+          412
         ],
         "name": "SimpleStorage",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 387,
+            "id": 393,
             "mutability": "mutable",
             "name": "storedData",
             "nodeType": "VariableDeclaration",
-            "scope": 406,
+            "scope": 412,
             "src": "84:15:2",
             "stateVariable": true,
             "storageLocation": "default",
@@ -680,7 +680,7 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 386,
+              "id": 392,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
               "src": "84:4:2",
@@ -693,23 +693,23 @@
           },
           {
             "body": {
-              "id": 396,
+              "id": 402,
               "nodeType": "Block",
               "src": "132:25:2",
               "statements": [
                 {
                   "expression": {
-                    "id": 394,
+                    "id": 400,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
-                      "id": 392,
+                      "id": 398,
                       "name": "storedData",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 387,
+                      "referencedDeclaration": 393,
                       "src": "138:10:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
@@ -719,11 +719,11 @@
                     "nodeType": "Assignment",
                     "operator": "=",
                     "rightHandSide": {
-                      "id": 393,
+                      "id": 399,
                       "name": "x",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 389,
+                      "referencedDeclaration": 395,
                       "src": "151:1:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
@@ -736,30 +736,30 @@
                       "typeString": "uint256"
                     }
                   },
-                  "id": 395,
+                  "id": 401,
                   "nodeType": "ExpressionStatement",
                   "src": "138:14:2"
                 }
               ]
             },
             "functionSelector": "60fe47b1",
-            "id": 397,
+            "id": 403,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "set",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 390,
+              "id": 396,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 389,
+                  "id": 395,
                   "mutability": "mutable",
                   "name": "x",
                   "nodeType": "VariableDeclaration",
-                  "scope": 397,
+                  "scope": 403,
                   "src": "117:6:2",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -768,7 +768,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 388,
+                    "id": 394,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
                     "src": "117:4:2",
@@ -783,12 +783,12 @@
               "src": "116:8:2"
             },
             "returnParameters": {
-              "id": 391,
+              "id": 397,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "132:0:2"
             },
-            "scope": 406,
+            "scope": 412,
             "src": "104:53:2",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -796,54 +796,54 @@
           },
           {
             "body": {
-              "id": 404,
+              "id": 410,
               "nodeType": "Block",
               "src": "203:28:2",
               "statements": [
                 {
                   "expression": {
-                    "id": 402,
+                    "id": 408,
                     "name": "storedData",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 387,
+                    "referencedDeclaration": 393,
                     "src": "216:10:2",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     }
                   },
-                  "functionReturnParameters": 401,
-                  "id": 403,
+                  "functionReturnParameters": 407,
+                  "id": 409,
                   "nodeType": "Return",
                   "src": "209:17:2"
                 }
               ]
             },
             "functionSelector": "6d4ce63c",
-            "id": 405,
+            "id": 411,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "get",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 398,
+              "id": 404,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "173:2:2"
             },
             "returnParameters": {
-              "id": 401,
+              "id": 407,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 400,
+                  "id": 406,
                   "mutability": "mutable",
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 405,
+                  "scope": 411,
                   "src": "197:4:2",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -852,7 +852,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 399,
+                    "id": 405,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
                     "src": "197:4:2",
@@ -866,32 +866,32 @@
               ],
               "src": "196:6:2"
             },
-            "scope": 406,
+            "scope": 412,
             "src": "161:70:2",
             "stateMutability": "view",
             "virtual": false,
             "visibility": "public"
           }
         ],
-        "scope": 407,
+        "scope": 413,
         "src": "57:176:2"
       }
     ],
     "src": "32:202:2"
   },
   "legacyAST": {
-    "absolutePath": "/home/yaniv/Desktop/etherum/my-ethe-vault/contracts/SimpleStorage.sol",
+    "absolutePath": "/home/yaniv/Desktop/etherum/my-eth-will/contracts/SimpleStorage.sol",
     "exportedSymbols": {
       "SimpleStorage": [
-        406
+        412
       ]
     },
-    "id": 407,
+    "id": 413,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 385,
+        "id": 391,
         "literals": [
           "solidity",
           "^",
@@ -907,20 +907,20 @@
         "contractDependencies": [],
         "contractKind": "contract",
         "fullyImplemented": true,
-        "id": 406,
+        "id": 412,
         "linearizedBaseContracts": [
-          406
+          412
         ],
         "name": "SimpleStorage",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 387,
+            "id": 393,
             "mutability": "mutable",
             "name": "storedData",
             "nodeType": "VariableDeclaration",
-            "scope": 406,
+            "scope": 412,
             "src": "84:15:2",
             "stateVariable": true,
             "storageLocation": "default",
@@ -929,7 +929,7 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 386,
+              "id": 392,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
               "src": "84:4:2",
@@ -942,23 +942,23 @@
           },
           {
             "body": {
-              "id": 396,
+              "id": 402,
               "nodeType": "Block",
               "src": "132:25:2",
               "statements": [
                 {
                   "expression": {
-                    "id": 394,
+                    "id": 400,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
-                      "id": 392,
+                      "id": 398,
                       "name": "storedData",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 387,
+                      "referencedDeclaration": 393,
                       "src": "138:10:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
@@ -968,11 +968,11 @@
                     "nodeType": "Assignment",
                     "operator": "=",
                     "rightHandSide": {
-                      "id": 393,
+                      "id": 399,
                       "name": "x",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 389,
+                      "referencedDeclaration": 395,
                       "src": "151:1:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
@@ -985,30 +985,30 @@
                       "typeString": "uint256"
                     }
                   },
-                  "id": 395,
+                  "id": 401,
                   "nodeType": "ExpressionStatement",
                   "src": "138:14:2"
                 }
               ]
             },
             "functionSelector": "60fe47b1",
-            "id": 397,
+            "id": 403,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "set",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 390,
+              "id": 396,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 389,
+                  "id": 395,
                   "mutability": "mutable",
                   "name": "x",
                   "nodeType": "VariableDeclaration",
-                  "scope": 397,
+                  "scope": 403,
                   "src": "117:6:2",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1017,7 +1017,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 388,
+                    "id": 394,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
                     "src": "117:4:2",
@@ -1032,12 +1032,12 @@
               "src": "116:8:2"
             },
             "returnParameters": {
-              "id": 391,
+              "id": 397,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "132:0:2"
             },
-            "scope": 406,
+            "scope": 412,
             "src": "104:53:2",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -1045,54 +1045,54 @@
           },
           {
             "body": {
-              "id": 404,
+              "id": 410,
               "nodeType": "Block",
               "src": "203:28:2",
               "statements": [
                 {
                   "expression": {
-                    "id": 402,
+                    "id": 408,
                     "name": "storedData",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 387,
+                    "referencedDeclaration": 393,
                     "src": "216:10:2",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     }
                   },
-                  "functionReturnParameters": 401,
-                  "id": 403,
+                  "functionReturnParameters": 407,
+                  "id": 409,
                   "nodeType": "Return",
                   "src": "209:17:2"
                 }
               ]
             },
             "functionSelector": "6d4ce63c",
-            "id": 405,
+            "id": 411,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "get",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 398,
+              "id": 404,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "173:2:2"
             },
             "returnParameters": {
-              "id": 401,
+              "id": 407,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 400,
+                  "id": 406,
                   "mutability": "mutable",
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 405,
+                  "scope": 411,
                   "src": "197:4:2",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1101,7 +1101,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 399,
+                    "id": 405,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
                     "src": "197:4:2",
@@ -1115,14 +1115,14 @@
               ],
               "src": "196:6:2"
             },
-            "scope": 406,
+            "scope": 412,
             "src": "161:70:2",
             "stateMutability": "view",
             "virtual": false,
             "visibility": "public"
           }
         ],
-        "scope": 407,
+        "scope": 413,
         "src": "57:176:2"
       }
     ],
@@ -1141,7 +1141,7 @@
     }
   },
   "schemaVersion": "3.4.1",
-  "updatedAt": "2021-05-30T07:10:44.423Z",
+  "updatedAt": "2021-05-30T22:06:59.366Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},
