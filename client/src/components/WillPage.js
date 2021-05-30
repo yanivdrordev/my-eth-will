@@ -41,14 +41,6 @@ function WillPage() {
     setWeb3AndContract();
   }, []);
 
-  const isOwnerOrBeneficiary = () => {
-    if (ownerOrBeneficiary === 'owner') {
-      return <Owner />;
-    } else {
-      return null;
-    }
-  };
-
   if (ownerOrBeneficiary === null) {
     return 'loading';
   } else if (ownerOrBeneficiary === 'owner') {

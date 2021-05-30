@@ -1,9 +1,10 @@
 import { useMetaMask } from 'metamask-react';
 import React, { useRef, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { Button } from 'semantic-ui-react';
 
 import VaultFactoryContract from './../contracts/VaultFactory.json';
 import getWeb3 from '../getWeb3';
-import { useHistory } from 'react-router-dom';
 
 function HomePage() {
   const { status, connect, account } = useMetaMask();
@@ -58,7 +59,7 @@ function HomePage() {
     return <div>Synchronisation with MetaMask ongoing...</div>;
 
   if (status === 'notConnected')
-    return <button onClick={connect}>Connect to MetaMask</button>;
+    return <Button onClick={connect}>Connect to MetaMask</Button>;
 
   if (status === 'connecting') return <div>Connecting...</div>;
 
@@ -71,7 +72,7 @@ function HomePage() {
     return (
       <div>
         <p>contractAddress {vaultContractAddress}</p>
-        <button onClick={createNewVault}>set storage to 5</button>
+        <Button onClick={createNewVault}>Create New Vault</Button>
         <div>Connected account: {account}</div>
       </div>
     );
