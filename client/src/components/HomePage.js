@@ -1,16 +1,13 @@
-import { useMetaMask } from 'metamask-react';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Button } from 'semantic-ui-react';
 
 import VaultFactoryContract from './../contracts/VaultFactory.json';
 import getWeb3 from '../getWeb3';
 
-function HomePage() {
-  const { status, connect, account } = useMetaMask();
+function HomePage({ status, connect, account, web3 }) {
   const [factoryContract, setFactoryContract] = useState(null);
-  const [vaultContractAddress, setVaultContractAddress] = useState(null);
-  const isFirstRender = useRef(true);
+  const [newContractAddress, setNewContractAddress] = useState(null);
   const history = useHistory();
 
   const createNewVault = async () => {
@@ -18,67 +15,54 @@ function HomePage() {
     await factoryContract.methods.createNewVault().send({ from: account });
 
     // Get the value from the contract to prove it worked.
-    const contractAddress = await factoryContract.methods
-      .getContractAddress()
-      .call();
-
-    setVaultContractAddress(contractAddress);
-    history.push('/' + contractAddress);
+    const instance = await factoryContract.methods.getContractAddress().call();
+    setNewContractAddress(instance);
+    history.push('/' + instance);
   };
 
-  const setWeb3AndContract = async () => {
-    try {
-      // Get network provider and web3 instance.
-      const web3 = await getWeb3();
+  // const setWeb3AndContract = async () => {};
 
-      // // Use web3 to get the user's accounts.
-      // const accounts = await web3.eth.getAccounts();
+  useEffect(() => {
+    const renderContent = async () => {
+      try {
+        // Get the contract instance.
+        const networkId = await web3.eth.net.getId();
+        const deployedNetwork = VaultFactoryContract.networks[networkId];
 
-      // Get the contract instance.
-      const networkId = await web3.eth.net.getId();
-      const deployedNetwork = VaultFactoryContract.networks[networkId];
-      console.log(deployedNetwork.address);
-      const instance = new web3.eth.Contract(
-        VaultFactoryContract.abi,
-        deployedNetwork.address
-      );
+        console.log(deployedNetwork.address);
 
-      setFactoryContract(instance);
-    } catch (error) {
-      // Catch any errors for any of the above operations.
-      alert(
-        `Failed to load web3, accounts, or contract. Check console for details.`
-      );
-      console.error(error);
-    }
-  };
+        const instance = new web3.eth.Contract(
+          VaultFactoryContract.abi,
+          deployedNetwork.address
+        );
 
-  if (status === 'unavailable') return <div>MetaMask not available :(</div>;
+        setFactoryContract(instance);
+      } catch (error) {
+        // Catch any errors for any of the above operations.
+        alert(
+          `Failed to load web3, accounts, or contract. Check console for details.`
+        );
+        console.error(error);
+      }
 
-  if (status === 'initializing')
-    return <div>Synchronisation with MetaMask ongoing...</div>;
+      // if (isFirstRender.current) {
+      //   isFirstRender.current = false; // toggle flag after first render/mounting
+      //   return null;
+      // }
+    };
 
-  if (status === 'notConnected')
-    return <Button onClick={connect}>Connect to MetaMask</Button>;
+    renderContent();
+  }, []);
 
-  if (status === 'connecting') return <div>Connecting...</div>;
-
-  if (status === 'connected') {
-    if (isFirstRender.current) {
-      isFirstRender.current = false; // toggle flag after first render/mounting
-      setWeb3AndContract();
-    }
-
-    return (
+  return (
+    factoryContract && (
       <div>
-        <p>contractAddress {vaultContractAddress}</p>
+        <p>contractAddress {newContractAddress}</p>
         <Button onClick={createNewVault}>Create New Vault</Button>
         <div>Connected account: {account}</div>
       </div>
-    );
-  }
-
-  return null;
+    )
+  );
 }
 
 export default HomePage;
