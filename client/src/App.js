@@ -26,14 +26,12 @@ function App() {
       return (
         <Switch>
           <Route exact path="/">
-            <HomePage
-              status={status}
-              connect={connect}
-              account={account}
-              web3={web3}
-            />
+            <HomePage account={account} web3={web3} />
           </Route>
-          <Route path="/:contractAddress" children={<WillPage />} />
+          <Route
+            path="/:contractAddress"
+            children={<WillPage account={account} web3={web3} />}
+          />
         </Switch>
       );
     }

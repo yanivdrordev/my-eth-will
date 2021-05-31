@@ -5,7 +5,7 @@ import { Button } from 'semantic-ui-react';
 import VaultFactoryContract from './../contracts/VaultFactory.json';
 import getWeb3 from '../getWeb3';
 
-function HomePage({ status, connect, account, web3 }) {
+function HomePage({ account, web3 }) {
   const [factoryContract, setFactoryContract] = useState(null);
   const [newContractAddress, setNewContractAddress] = useState(null);
   const history = useHistory();

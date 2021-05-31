@@ -5,7 +5,7 @@ import getWeb3 from '../getWeb3';
 import BeneficiariesVault from './../contracts/BeneficiariesVault.json';
 import Owner from './Owner';
 
-function WillPage() {
+function WillPage({ account, web3 }) {
   let { contractAddress } = useParams();
 
   const [ownerOrBeneficiary, setOwnerOrBeneficiary] = useState(null);
@@ -14,19 +14,21 @@ function WillPage() {
     const setWeb3AndContract = async () => {
       try {
         // Get network provider and web3 instance.
-        const web3 = await getWeb3();
 
         const contract = new web3.eth.Contract(
           BeneficiariesVault.abi,
           contractAddress
         );
 
-        const isOwner = await contract.methods.isOwner().call();
+        const isOwner = await contract.methods
+          .isOwner()
+          .call({ from: account });
 
         if (isOwner) {
           setOwnerOrBeneficiary('owner');
         } else {
           //check if account address is Beneficiary address
+          setOwnerOrBeneficiary(null);
         }
         console.log(isOwner);
       } catch (error) {
@@ -39,12 +41,12 @@ function WillPage() {
     };
 
     setWeb3AndContract();
-  }, []);
+  }, [account]);
 
   if (ownerOrBeneficiary === null) {
     return 'loading';
   } else if (ownerOrBeneficiary === 'owner') {
-    return <Owner />;
+    return <Owner account={account} web3={web3} />;
   }
 }
 
