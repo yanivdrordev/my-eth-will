@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 import WillPage from './components/WillPage';
 import HomePage from './components/HomePage';
-import { Button, Container } from 'semantic-ui-react';
+import { Button, Container, Menu } from 'semantic-ui-react';
 import { useMetaMask } from 'metamask-react';
 import Web3 from 'web3';
 
@@ -39,11 +39,11 @@ function App() {
 
   return (
     <Router>
-      <ul>
-        <li>
+      <Menu>
+        <Menu.Item>
           <Link to="/">Home</Link>
-        </li>
-      </ul>
+        </Menu.Item>
+      </Menu>
       <Container>{renderContent()}</Container>
     </Router>
   );
