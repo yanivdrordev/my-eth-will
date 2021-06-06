@@ -13,7 +13,7 @@ contract BeneficiariesVault {
     // all the other public functions are accesible to the Owner or one of the Beneficiaries but not to any other address (more about access control in the modifiers comments)
     
     //START STATE VARIBLES
-    address private _owner;
+    address payable private _owner;
     
     event Deposit(address sender, uint value);
     
@@ -45,7 +45,7 @@ contract BeneficiariesVault {
         //Add a dedline with default of a year from contract creation
         deadlineTimestamp = block.timestamp + (365 * 1 days);
         withdrawAllowed = false;
-        _owner = _vaultOwner;
+        _owner = payable(_vaultOwner);
     }
     
     //START UTIL FUNCTIONS
@@ -69,6 +69,10 @@ contract BeneficiariesVault {
 
     function isOwner() public view returns(bool){
         return owner() == msg.sender;
+    }
+
+    function isBeneficiary() public view returns(bool){
+        return isContains(msg.sender);
     }
     
     
@@ -125,6 +129,10 @@ contract BeneficiariesVault {
         delete beneficiaries[_beneficiaryAddress];
         //remove from beneficiariesAddresses set
         beneficiariesAddresses.remove(_beneficiaryAddress);
+    }
+
+    function ow_Withdraw(uint _amount) payable public onlyOwner{
+        payable(msg.sender).transfer(_amount);
     }
     
     function be_Withdraw(address payable _beneficiaryAddress) public payable OnlyBeneficiary(_beneficiaryAddress){

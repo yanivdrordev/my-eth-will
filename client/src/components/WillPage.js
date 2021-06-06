@@ -1,50 +1,61 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import getWeb3 from '../getWeb3';
 import BeneficiariesVault from './../contracts/BeneficiariesVault.json';
+import Beneficiary from './Beneficiary';
 import Owner from './Owner';
 
-function WillPage() {
+function WillPage({ account, web3 }) {
   let { contractAddress } = useParams();
+  const [ownerOrBeneficiary, setOwnerOrBeneficiary] = useState('');
 
-  const [ownerOrBeneficiary, setOwnerOrBeneficiary] = useState(null);
+  const [contract, setContract] = useState({});
 
   useEffect(() => {
-    const setWeb3AndContract = async () => {
-      try {
-        // Get network provider and web3 instance.
-        const web3 = await getWeb3();
+    const getRole = async () => {
+      const contract = new web3.eth.Contract(
+        BeneficiariesVault.abi,
+        contractAddress
+      );
+      setContract(contract);
 
-        const contract = new web3.eth.Contract(
-          BeneficiariesVault.abi,
-          contractAddress
-        );
+      const isOwner = await contract.methods.isOwner().call({ from: account });
 
-        const isOwner = await contract.methods.isOwner().call();
+      const isBeneficiary = await contract.methods
+        .isBeneficiary()
+        .call({ from: account });
 
-        if (isOwner) {
-          setOwnerOrBeneficiary('owner');
-        } else {
-          //check if account address is Beneficiary address
-        }
-        console.log(isOwner);
-      } catch (error) {
-        // Catch any errors for any of the above operations.
-        alert(
-          `Failed to load web3, accounts, or contract. Check console for details.`
-        );
-        console.error(error);
+      if (isOwner) {
+        setOwnerOrBeneficiary('owner');
+      } else if (isBeneficiary) {
+        //check if account address is Beneficiary address
+        setOwnerOrBeneficiary('beneficiary');
+      } else {
+        //account not autorize to see this page
+        setOwnerOrBeneficiary('not-authorized');
       }
+      console.log(isOwner);
     };
 
-    setWeb3AndContract();
-  }, []);
+    getRole();
+  }, [account]);
 
-  if (ownerOrBeneficiary === null) {
+  if (ownerOrBeneficiary === '') {
     return 'loading';
   } else if (ownerOrBeneficiary === 'owner') {
-    return <Owner />;
+    return (
+      <Owner
+        account={account}
+        web3={web3}
+        contract={contract}
+        contractAddress={contractAddress}
+      />
+    );
+  } else if (ownerOrBeneficiary === 'beneficiary') {
+    return <Beneficiary />;
+  } else if (ownerOrBeneficiary === 'not-authorized') {
+    return 'you are not authorized to see this contract';
   }
 }
 
