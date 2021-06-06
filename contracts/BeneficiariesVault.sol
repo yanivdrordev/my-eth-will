@@ -13,7 +13,7 @@ contract BeneficiariesVault {
     // all the other public functions are accesible to the Owner or one of the Beneficiaries but not to any other address (more about access control in the modifiers comments)
     
     //START STATE VARIBLES
-    address payable private _owner;
+    address private _owner;
     
     event Deposit(address sender, uint value);
     
@@ -132,7 +132,7 @@ contract BeneficiariesVault {
     }
 
     function ow_Withdraw(uint _amount) payable public onlyOwner{
-        payable(msg.sender).transfer(_amount);
+        payable(msg.sender).sendValue(_amount);
     }
     
     function be_Withdraw(address payable _beneficiaryAddress) public payable OnlyBeneficiary(_beneficiaryAddress){
