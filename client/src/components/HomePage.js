@@ -11,11 +11,17 @@ function HomePage({ account, web3 }) {
   const history = useHistory();
 
   const createNewVault = async () => {
+    const hasVault = await factoryContract.methods
+      .checkIfAcountHasVault()
+      .call({ from: account });
+    console.log(hasVault);
     // Stores a given value, 5 by default.
     await factoryContract.methods.createNewVault().send({ from: account });
 
     // Get the value from the contract to prove it worked.
-    const instance = await factoryContract.methods.getContractAddress().call();
+    const instance = await factoryContract.methods
+      .getContractAddress()
+      .call({ from: account });
     setNewContractAddress(instance);
     history.push('/' + instance);
   };
