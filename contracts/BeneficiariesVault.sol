@@ -45,22 +45,13 @@ contract BeneficiariesVault {
         //Add a dedline with default of a year from contract creation
         deadlineTimestamp = block.timestamp + (365 * 1 days);
         withdrawAllowed = false;
-        _owner = payable(_vaultOwner);
+        _owner = _vaultOwner;
     }
     
     //START UTIL FUNCTIONS
     
     function isContains(address  _beneficiaryAddress) private view returns(bool) {
         return beneficiariesAddresses.contains( _beneficiaryAddress);
-    }
-    
-    function getLength() private view returns(uint){
-        return beneficiariesAddresses.length();
-    }
-
-    function at(uint index) private view returns(address) {
-        require(index < beneficiariesAddresses.length());
-        return beneficiariesAddresses.at(index);
     }
     
     function owner() private view returns (address) {
@@ -133,6 +124,15 @@ contract BeneficiariesVault {
 
     function ow_Withdraw(uint _amount) payable public onlyOwner{
         payable(msg.sender).sendValue(_amount);
+    }
+
+    function ow_GetBeneficiariesLength() public view onlyOwner returns(uint) {
+        return beneficiariesAddresses.length();
+    }
+
+    function ow_GetBeneficiariesAtIndex(uint index) public view onlyOwner returns(address) {
+        require(index < beneficiariesAddresses.length());
+        return beneficiariesAddresses.at(index);
     }
     
     function be_Withdraw(address payable _beneficiaryAddress) public payable OnlyBeneficiary(_beneficiaryAddress){
