@@ -144,6 +144,11 @@ contract BeneficiariesVault {
         _beneficiaryAddress.sendValue(msg.value);//temporary just for check
 
     }
+
+    function be_VerifyAddress() public payable OnlyBeneficiary(msg.sender){
+        require(beneficiaries[msg.sender].verifiedAddress == false, 'this address already verified');
+        beneficiaries[msg.sender].verifiedAddress = true;
+    }
     
     function ow_SetDeadlineFromToday(uint256 _numberOfDays) public onlyOwner {
         require(_numberOfDays > 7 && _numberOfDays < 365 , "extension is set only in days that are greater then 7 and lower then 365");
