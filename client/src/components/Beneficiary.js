@@ -7,7 +7,7 @@ const Beneficiary = ({ account, web3, contract, contractAddress }) => {
   const getBeneficiaryStruct = async () => {
     try {
       const beneficiaryStruct = await contract.methods
-        .getBeneficiariesStruct(account)
+        .getBeneficiaryStruct(account)
         .call({ from: account });
 
       setVerifiedAddress(beneficiaryStruct.verifiedAddress);

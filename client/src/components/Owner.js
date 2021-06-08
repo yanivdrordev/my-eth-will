@@ -1,5 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Button, Form, Grid, Header, Message, Table } from 'semantic-ui-react';
+import {
+  Button,
+  Form,
+  Grid,
+  Header,
+  Icon,
+  Message,
+  Table,
+} from 'semantic-ui-react';
 import AddBeneficiaryModal from './AddBeneficiaryModal';
 
 const Owner = ({ account, web3, contract, contractAddress }) => {
@@ -106,7 +114,7 @@ const Owner = ({ account, web3, contract, contractAddress }) => {
       const beneficiariesStructs = await Promise.all(
         beneficiariesAddresses.map((address) => {
           return contract.methods
-            .getBeneficiariesStruct(address)
+            .getBeneficiaryStruct(address)
             .call({ from: account });
         })
       );
@@ -131,6 +139,13 @@ const Owner = ({ account, web3, contract, contractAddress }) => {
         <Table.Row key={index}>
           <Table.Cell>{struct.name}</Table.Cell>
           <Table.Cell>{struct.email}</Table.Cell>
+          <Table.Cell textAlign="center">
+            {struct.verifiedAddress ? (
+              <Icon color="green" name="checkmark" size="large" />
+            ) : (
+              <Icon color="red" name="x" size="large" />
+            )}
+          </Table.Cell>
         </Table.Row>
       );
     });
@@ -228,6 +243,7 @@ const Owner = ({ account, web3, contract, contractAddress }) => {
                 <Table.Row>
                   <Table.HeaderCell>name</Table.HeaderCell>
                   <Table.HeaderCell>email</Table.HeaderCell>
+                  <Table.HeaderCell>verified address</Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
 
