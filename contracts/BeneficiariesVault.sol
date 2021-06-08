@@ -30,6 +30,7 @@ contract BeneficiariesVault {
     struct BeneficiariesStruct {
         string email;
         string name;
+        bool verifiedAddress;
     }
     
     //map address to struct
@@ -98,7 +99,7 @@ contract BeneficiariesVault {
         return address(this).balance;
     }
     
-    function getBeneficiariesStruct(address _beneficiaryAddress) public view returns(BeneficiariesStruct memory){
+    function getBeneficiaryStruct(address _beneficiaryAddress) public view OwnerOrBeneficiary(msg.sender) returns(BeneficiariesStruct memory){
         
         require(isContains(_beneficiaryAddress),"beneficiary address not found!");
         
@@ -109,7 +110,7 @@ contract BeneficiariesVault {
         
         require(!isContains(_newBeneficiaryAddress),"beneficiary address not already exist!");
         //add to beneficiaries mapping
-        beneficiaries[_newBeneficiaryAddress] = BeneficiariesStruct(_newBeneficiaryEmail,_newBeneficiaryName);
+        beneficiaries[_newBeneficiaryAddress] = BeneficiariesStruct(_newBeneficiaryEmail,_newBeneficiaryName, false);
         //add to beneficiariesAddresses set
         beneficiariesAddresses.add(_newBeneficiaryAddress);
     }
@@ -142,6 +143,11 @@ contract BeneficiariesVault {
         
         _beneficiaryAddress.sendValue(msg.value);//temporary just for check
 
+    }
+
+    function be_VerifyAddress() public payable OnlyBeneficiary(msg.sender){
+        require(beneficiaries[msg.sender].verifiedAddress == false, 'this address already verified');
+        beneficiaries[msg.sender].verifiedAddress = true;
     }
     
     function ow_SetDeadlineFromToday(uint256 _numberOfDays) public onlyOwner {
