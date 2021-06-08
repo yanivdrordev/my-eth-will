@@ -53,7 +53,14 @@ function WillPage({ account, web3 }) {
       />
     );
   } else if (ownerOrBeneficiary === 'beneficiary') {
-    return <Beneficiary />;
+    return (
+      <Beneficiary
+        account={account}
+        web3={web3}
+        contract={contract}
+        contractAddress={contractAddress}
+      />
+    );
   } else if (ownerOrBeneficiary === 'not-authorized') {
     return 'you are not authorized to see this contract';
   }

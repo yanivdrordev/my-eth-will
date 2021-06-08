@@ -99,7 +99,7 @@ contract BeneficiariesVault {
         return address(this).balance;
     }
     
-    function getBeneficiariesStruct(address _beneficiaryAddress) public view returns(BeneficiariesStruct memory){
+    function getBeneficiaryStruct(address _beneficiaryAddress) public view OwnerOrBeneficiary(msg.sender) returns(BeneficiariesStruct memory){
         
         require(isContains(_beneficiaryAddress),"beneficiary address not found!");
         
