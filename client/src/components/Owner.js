@@ -7,8 +7,10 @@ import {
   Icon,
   Message,
   Table,
+  TextArea,
 } from 'semantic-ui-react';
-import AddBeneficiaryModal from './AddBeneficiaryModal';
+import AddBeneficiaryModal from './modals/AddBeneficiaryModal';
+import EmailVerificationModal from './modals/EmailVerificationModal';
 
 const Owner = ({ account, web3, contract, contractAddress }) => {
   const [contractBalance, setContractBalance] = useState(0);
@@ -125,6 +127,10 @@ const Owner = ({ account, web3, contract, contractAddress }) => {
     console.log(beneficiariesAddresses);
   };
 
+  const sendVerificationEmailToBeneficiary = (index) => {
+    console.log(beneficiariesStructs[index]);
+  };
+
   useEffect(() => {
     getContractBalance();
     getBeneficiariesLength();
@@ -139,11 +145,74 @@ const Owner = ({ account, web3, contract, contractAddress }) => {
         <Table.Row key={index}>
           <Table.Cell>{struct.name}</Table.Cell>
           <Table.Cell>{struct.email}</Table.Cell>
+          <Table.Cell>{struct.beneficiarAddress}</Table.Cell>
           <Table.Cell textAlign="center">
             {struct.verifiedAddress ? (
               <Icon color="green" name="checkmark" size="large" />
             ) : (
-              <Icon color="red" name="x" size="large" />
+              <EmailVerificationModal titleWarning="IF YOU DONT USE GMAIL copy this message and sent it manually">
+                <Form>
+                  <Form.Field>
+                    <label>subject</label>
+                    <input value={struct.name + ' verify your address'} />
+                  </Form.Field>
+                  <Form.Field>
+                    <label>message</label>
+                    <TextArea
+                      style={{ minHeight: 100 }}
+                      value={
+                        'hi ' +
+                        struct.name +
+                        ' your etherum account ' +
+                        struct.beneficiarAddress +
+                        ' was added to my eth will contract. you can go to this website with metamask connect at ' +
+                        struct.beneficiarAddress +
+                        ' and verify your address http://localhost:3000/' +
+                        contractAddress +
+                        ' (please note that you need to have a small amount of ETH in this address to pay the gas for the verification)'
+                      }
+                    />
+                  </Form.Field>
+                  <a
+                    style={{
+                      cursor: 'pointer',
+                      display: 'inline-block',
+                      minHeight: '1em',
+                      outline: 0,
+                      border: 'none',
+                      verticalAlign: 'baseline',
+                      backgroundColor: '#2185d0',
+                      color: '#fff',
+                      fontFamily:
+                        'Lato,Helvetica Neue,Arial,Helvetica,sans-serif',
+                      fontSize: '1rem',
+                      margin: '0 .25em 0 0',
+                      padding: '.78571429em 1.5em .78571429em',
+                      borderRadius: '.28571429rem',
+                    }}
+                    href={
+                      'https://mail.google.com/mail/?view=cm&fs=1&to=' +
+                      struct.email +
+                      '&su=' +
+                      struct.name +
+                      ' verify your address&body=hi ' +
+                      struct.name +
+                      ' your etherum account ' +
+                      struct.beneficiarAddress +
+                      ' was added to my eth will contract. you can go to this website with metamask connect at ' +
+                      struct.beneficiarAddress +
+                      ' and verify your address http://localhost:3000/' +
+                      contractAddress +
+                      ' (please note that you need to have a small amount of ETH in this address to pay the gas for the verification)'
+                    }
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <Icon name="mail" size="large" />
+                    send email via gmail
+                  </a>
+                </Form>
+              </EmailVerificationModal>
             )}
           </Table.Cell>
         </Table.Row>
@@ -243,7 +312,8 @@ const Owner = ({ account, web3, contract, contractAddress }) => {
                 <Table.Row>
                   <Table.HeaderCell>name</Table.HeaderCell>
                   <Table.HeaderCell>email</Table.HeaderCell>
-                  <Table.HeaderCell>verified address</Table.HeaderCell>
+                  <Table.HeaderCell>address</Table.HeaderCell>
+                  <Table.HeaderCell>verification status</Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
 

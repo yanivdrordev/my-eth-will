@@ -30,6 +30,7 @@ contract BeneficiariesVault {
     struct BeneficiariesStruct {
         string email;
         string name;
+        address beneficiarAddress;
         bool verifiedAddress;
     }
     
@@ -110,7 +111,7 @@ contract BeneficiariesVault {
         
         require(!isContains(_newBeneficiaryAddress),"beneficiary address not already exist!");
         //add to beneficiaries mapping
-        beneficiaries[_newBeneficiaryAddress] = BeneficiariesStruct(_newBeneficiaryEmail,_newBeneficiaryName, false);
+        beneficiaries[_newBeneficiaryAddress] = BeneficiariesStruct(_newBeneficiaryEmail,_newBeneficiaryName, _newBeneficiaryAddress, false);
         //add to beneficiariesAddresses set
         beneficiariesAddresses.add(_newBeneficiaryAddress);
     }
