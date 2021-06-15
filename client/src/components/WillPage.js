@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect , useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import BeneficiariesVault from './../abi/BeneficiariesVault.json';
 import Beneficiary from './Beneficiary';
 import Owner from './Owner';
-import { Web3Context } from './../App';
+import { Web3Context } from './../context/web3-context';
 
 function WillPage({ account }) {
 

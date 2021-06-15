@@ -1,14 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import Web3 from 'web3';
 
 import WillPage from './components/WillPage';
 import HomePage from './components/HomePage';
 import { Button, Container, Menu } from 'semantic-ui-react';
 import { useMetaMask } from 'metamask-react';
-
-const web3 = new Web3(Web3.givenProvider);
-export const Web3Context = React.createContext(web3);
 
 function App() {
   const { status, connect, account } = useMetaMask();
