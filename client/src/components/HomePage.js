@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Button } from 'semantic-ui-react';
 
-import VaultFactoryContract from './../contracts/VaultFactory.json';
+import VaultFactoryContract from './../abi/VaultFactory.json';
 import getWeb3 from '../getWeb3';
 
 function HomePage({ account, web3 }) {

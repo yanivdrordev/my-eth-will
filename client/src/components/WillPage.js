@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import getWeb3 from '../getWeb3';
-import BeneficiariesVault from './../contracts/BeneficiariesVault.json';
+import BeneficiariesVault from './../abi/BeneficiariesVault.json';
 import Beneficiary from './Beneficiary';
 import Owner from './Owner';
 
