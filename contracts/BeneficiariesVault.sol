@@ -32,6 +32,7 @@ contract BeneficiariesVault {
         string name;
         address beneficiarAddress;
         bool verifiedAddress;
+        uint amount;
     }
     
     //map address to struct
@@ -109,11 +110,20 @@ contract BeneficiariesVault {
     
     function ow_AddBeneficiary(address _newBeneficiaryAddress, string memory _newBeneficiaryEmail, string memory _newBeneficiaryName) public onlyOwner{
         
-        require(!isContains(_newBeneficiaryAddress),"beneficiary address not already exist!");
+        require(!isContains(_newBeneficiaryAddress),"beneficiary address already exist!");
         //add to beneficiaries mapping
-        beneficiaries[_newBeneficiaryAddress] = BeneficiariesStruct(_newBeneficiaryEmail,_newBeneficiaryName, _newBeneficiaryAddress, false);
+        beneficiaries[_newBeneficiaryAddress] = BeneficiariesStruct(_newBeneficiaryEmail,_newBeneficiaryName, _newBeneficiaryAddress, false, 0);
         //add to beneficiariesAddresses set
         beneficiariesAddresses.add(_newBeneficiaryAddress);
+    }
+
+    function ow_UpdateBeneficiaryAmount(address _beneficiaryAddress, uint _amount) public onlyOwner{
+        
+        require(isContains(_beneficiaryAddress),"beneficiary address not found!");
+        require(beneficiaries[_beneficiaryAddress].verifiedAddress == true,"beneficiary address not yet verified");
+        
+        
+        beneficiaries[_beneficiaryAddress].amount = _amount;
     }
     
     function ow_RemoveBeneficiary(address _beneficiaryAddress) public OnlyBeneficiary(_beneficiaryAddress) onlyOwner{

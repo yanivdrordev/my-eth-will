@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Form, Header, Image, Modal } from 'semantic-ui-react';
 
-const AddBeneficiaryModal = (props) => {
+const UpdateBeneficiaryAmountModal = (props) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -9,7 +9,7 @@ const AddBeneficiaryModal = (props) => {
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
       open={open}
-      trigger={<Button>Add Benefiary</Button>}
+      trigger={<Button>Update Amount</Button>}
     >
       <Modal.Header>{props.title}</Modal.Header>
       <Modal.Content>{props.children}</Modal.Content>
@@ -19,7 +19,7 @@ const AddBeneficiaryModal = (props) => {
           labelPosition="right"
           icon="checkmark"
           onClick={(e) => {
-            props.onAddBeneficiary(e);
+            props.onUpdateBeneficiaryAmount(e);
             setOpen(false);
           }}
           positive
@@ -29,4 +29,4 @@ const AddBeneficiaryModal = (props) => {
   );
 };
 
-export default AddBeneficiaryModal;
+export default UpdateBeneficiaryAmountModal;
