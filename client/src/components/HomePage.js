@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Button } from 'semantic-ui-react';
-import { Web3Context } from './../App';
+import { Web3Context } from './../context/web3-context';
 
 import VaultFactoryContract from './../abi/VaultFactory.json';
 
