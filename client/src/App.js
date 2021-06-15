@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import Web3 from 'web3';
 
 import WillPage from './components/WillPage';
 import HomePage from './components/HomePage';
 import { Button, Container, Menu } from 'semantic-ui-react';
 import { useMetaMask } from 'metamask-react';
-import Web3 from 'web3';
+
+const web3 = new Web3(Web3.givenProvider);
+export const Web3Context = React.createContext(web3);
 
 function App() {
   const { status, connect, account } = useMetaMask();
-  const web3 = new Web3(Web3.givenProvider);
 
   const renderContent = () => {
     if (status === 'unavailable') return <div>MetaMask not available :(</div>;
@@ -26,11 +28,11 @@ function App() {
       return (
         <Switch>
           <Route exact path="/">
-            <HomePage account={account} web3={web3} />
+            <HomePage account={account} />
           </Route>
           <Route
             path="/:contractAddress"
-            children={<WillPage account={account} web3={web3} />}
+            children={<WillPage account={account} />}
           />
         </Switch>
       );

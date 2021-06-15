@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Button } from 'semantic-ui-react';
 
-const Beneficiary = ({ account, web3, contract, contractAddress }) => {
+const Beneficiary = ({ account, contract, contractAddress }) => {
   const [verifiedAddress, setVerifiedAddress] = useState(null);
 
   const getBeneficiaryStruct = async () => {
