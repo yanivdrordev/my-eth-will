@@ -8,9 +8,11 @@ import {
   Message,
   Table,
   TextArea,
+  Input
 } from 'semantic-ui-react';
 import AddBeneficiaryModal from './modals/AddBeneficiaryModal';
 import EmailVerificationModal from './modals/EmailVerificationModal';
+import UpdateBeneficiaryAmountModal from "./modals/UpdateBeneficiaryAmountModal";
 
 const Owner = ({ account, web3, contract, contractAddress }) => {
   const [contractBalance, setContractBalance] = useState(0);
@@ -20,6 +22,7 @@ const Owner = ({ account, web3, contract, contractAddress }) => {
     address: '',
     email: '',
     name: '',
+    amount: 0
   });
   const [beneficiariesLength, setBeneficiariesLength] = useState(0);
   const [errorMessage, setErrorMessage] = useState('');
@@ -73,6 +76,23 @@ const Owner = ({ account, web3, contract, contractAddress }) => {
     }
   };
 
+  const onUpdateBeneficiaryAmount = async (e,index) => {
+    e.preventDefault();
+    try {
+      const res = await contract.methods
+        .ow_UpdateBeneficiaryAmount(
+          beneficiariesStructs[index].beneficiarAddress,
+          web3.utils.toWei(beneficiariesStructs[index].amount, 'ether')
+        )
+        .send({ from: account });
+        console.log(res)
+      getBeneficiariesLength();
+    } catch (err) {
+      setErrorMessage(err.message);
+    }
+  };
+
+
   const getContractBalance = async () => {
     const balance = await contract.methods
       .getContractBalance()
@@ -114,10 +134,18 @@ const Owner = ({ account, web3, contract, contractAddress }) => {
 
     if (beneficiariesAddresses) {
       const beneficiariesStructs = await Promise.all(
-        beneficiariesAddresses.map((address) => {
-          return contract.methods
+        beneficiariesAddresses.map(async (address) => {
+          const struct = await contract.methods
             .getBeneficiaryStruct(address)
             .call({ from: account });
+          console.log(struct)
+          return {
+            amount: web3.utils.fromWei(struct.amount, 'ether'),
+            beneficiarAddress: struct.beneficiarAddress,
+            email: struct.email,
+            name: struct.name,
+            verifiedAddress: struct.verifiedAddress
+          };
         })
       );
 
@@ -126,7 +154,7 @@ const Owner = ({ account, web3, contract, contractAddress }) => {
 
     console.log(beneficiariesAddresses);
   };
-
+  //not in use
   const sendVerificationEmailToBeneficiary = (index) => {
     console.log(beneficiariesStructs[index]);
   };
@@ -141,6 +169,7 @@ const Owner = ({ account, web3, contract, contractAddress }) => {
 
   const renderRows = () => {
     return beneficiariesStructs.map((struct, index) => {
+      console.log(struct)
       return (
         <Table.Row key={index}>
           <Table.Cell>{struct.name}</Table.Cell>
@@ -215,6 +244,34 @@ const Owner = ({ account, web3, contract, contractAddress }) => {
               </EmailVerificationModal>
             )}
           </Table.Cell>
+          <Table.Cell>{struct.verifiedAddress ? (
+            /* START UPDATE BENEFIARY AMOUNT MODAL FORM */
+            <>
+            <Input disabled value={struct.amount} />
+            <UpdateBeneficiaryAmountModal
+              title="UPDATE BENEFICIARY AMOUNT"
+              submitBtnTitle="UPDATE BENEFICIARY AMOUNT"
+              onUpdateBeneficiaryAmount={(e) => onUpdateBeneficiaryAmount(e,index)}
+            >
+              <Form>
+                <Form.Field>
+                  <input
+                    placeholder="amount"
+                    value={beneficiariesStructs[index].amount}
+                    onChange={(e)=> {
+                      const temp = [...beneficiariesStructs];
+                      temp[index].amount  = e.target.value;
+                      return setBeneficiariesStructs(temp);
+                    }
+                    }
+                    name="amount"
+                  />
+                </Form.Field>
+              </Form>
+            </UpdateBeneficiaryAmountModal>
+            </>
+            /* END ADD BENEFICIARY MODAL FORM */
+            ) : ( <><Icon name='attention' />need to verified benifiary address first <Input disabled value={struct.amount} /></> )}</Table.Cell>
         </Table.Row>
       );
     });
@@ -314,6 +371,7 @@ const Owner = ({ account, web3, contract, contractAddress }) => {
                   <Table.HeaderCell>email</Table.HeaderCell>
                   <Table.HeaderCell>address</Table.HeaderCell>
                   <Table.HeaderCell>verification status</Table.HeaderCell>
+                  <Table.HeaderCell>amount</Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
 

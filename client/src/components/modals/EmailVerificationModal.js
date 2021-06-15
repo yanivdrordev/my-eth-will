@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form, Header, Image, Message, Modal } from 'semantic-ui-react';
+import { Button, Message, Modal } from 'semantic-ui-react';
 
 const EmailVerificationModal = (props) => {
   const [open, setOpen] = useState(false);
