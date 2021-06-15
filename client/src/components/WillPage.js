@@ -1,12 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import getWeb3 from '../getWeb3';
-import BeneficiariesVault from './../contracts/BeneficiariesVault.json';
+import BeneficiariesVault from './../abi/BeneficiariesVault.json';
 import Beneficiary from './Beneficiary';
 import Owner from './Owner';
+import { Web3Context } from './../App';
 
-function WillPage({ account, web3 }) {
+function WillPage({ account }) {
+
+  const web3 = useContext(Web3Context);
+  
   let { contractAddress } = useParams();
   const [ownerOrBeneficiary, setOwnerOrBeneficiary] = useState('');
 
@@ -47,7 +50,6 @@ function WillPage({ account, web3 }) {
     return (
       <Owner
         account={account}
-        web3={web3}
         contract={contract}
         contractAddress={contractAddress}
       />
@@ -56,7 +58,6 @@ function WillPage({ account, web3 }) {
     return (
       <Beneficiary
         account={account}
-        web3={web3}
         contract={contract}
         contractAddress={contractAddress}
       />

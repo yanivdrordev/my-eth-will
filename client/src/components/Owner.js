@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
   Button,
   Form,
@@ -10,11 +10,13 @@ import {
   TextArea,
   Input
 } from 'semantic-ui-react';
+import { Web3Context } from '../App';
 import AddBeneficiaryModal from './modals/AddBeneficiaryModal';
 import EmailVerificationModal from './modals/EmailVerificationModal';
 import UpdateBeneficiaryAmountModal from "./modals/UpdateBeneficiaryAmountModal";
 
-const Owner = ({ account, web3, contract, contractAddress }) => {
+const Owner = ({ account, contract, contractAddress }) => {
+  const web3 = useContext(Web3Context);
   const [contractBalance, setContractBalance] = useState(0);
   const [depositeEth, setDepositeEth] = useState(0);
   const [withdrawEth, setWithdrawEth] = useState(0);

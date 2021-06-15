@@ -1,11 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Button } from 'semantic-ui-react';
+import { Web3Context } from './../App';
 
-import VaultFactoryContract from './../contracts/VaultFactory.json';
-import getWeb3 from '../getWeb3';
+import VaultFactoryContract from './../abi/VaultFactory.json';
 
-function HomePage({ account, web3 }) {
+function HomePage({ account }) {
+
+  const web3 = useContext(Web3Context);
+
   const [factoryContract, setFactoryContract] = useState(null);
   const [newContractAddress, setNewContractAddress] = useState(null);
   const history = useHistory();
