@@ -193,36 +193,11 @@ const OwnerContainer = ({ account, contract, contractAddress }) => {
             {/* START ADD BENEFICIARY MODAL FORM */}
             <AddBeneficiaryModal
               title="ADD NEW BENEFICIARY"
+              newBeneficiary={newBeneficiary}
+              handleAddBeneficiaryChange={handleAddBeneficiaryChange}
               submitBtnTitle="ADD NEW BENEFICIARY"
               onAddBeneficiary={onAddBeneficiary}
-            >
-              <Form>
-                <Form.Field>
-                  <input
-                    placeholder="address"
-                    value={newBeneficiary.address}
-                    onChange={handleAddBeneficiaryChange}
-                    name="address"
-                  />
-                </Form.Field>
-                <Form.Field>
-                  <input
-                    placeholder="email"
-                    value={newBeneficiary.email}
-                    onChange={handleAddBeneficiaryChange}
-                    name="email"
-                  />
-                </Form.Field>
-                <Form.Field>
-                  <input
-                    placeholder="name"
-                    value={newBeneficiary.name}
-                    onChange={handleAddBeneficiaryChange}
-                    name="name"
-                  />
-                </Form.Field>
-              </Form>
-            </AddBeneficiaryModal>
+            />
             {/* END ADD BENEFICIARY MODAL FORM */}
           </Grid.Column>
         </Grid.Row>
