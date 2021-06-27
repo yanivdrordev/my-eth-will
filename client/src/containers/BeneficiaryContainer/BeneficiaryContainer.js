@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Button } from 'semantic-ui-react';
 
-const Beneficiary = ({ account, contract, contractAddress }) => {
+const BeneficiaryContainer = ({ account, contract, contractAddress }) => {
   const [verifiedAddress, setVerifiedAddress] = useState(null);
 
   const getBeneficiaryStruct = async () => {
@@ -45,4 +45,4 @@ const Beneficiary = ({ account, contract, contractAddress }) => {
   return <div>{renderContent()}</div>;
 };
 
-export default Beneficiary;
+export default BeneficiaryContainer;

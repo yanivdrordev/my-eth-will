@@ -10,12 +10,12 @@ import {
   TextArea,
   Input
 } from 'semantic-ui-react';
-import { Web3Context } from '../../../context/web3-context';
-import AddBeneficiaryModal from '../modals/AddBeneficiaryModal';
-import BeneficiariesTable from './BeneficiariesTable';
+import { Web3Context } from '../../context/web3-context';
+import AddBeneficiaryModal from './modals/AddBeneficiaryModal';
+import BeneficiariesTable from './components/BeneficiariesTable';
 
 
-const Owner = ({ account, contract, contractAddress }) => {
+const OwnerContainer = ({ account, contract, contractAddress }) => {
   const web3 = useContext(Web3Context);
   const [contractBalance, setContractBalance] = useState(0);
   const [depositeEth, setDepositeEth] = useState(0);
@@ -270,4 +270,4 @@ const Owner = ({ account, contract, contractAddress }) => {
   );
 };
 
-export default Owner;
+export default OwnerContainer;

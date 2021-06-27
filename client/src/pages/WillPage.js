@@ -1,8 +1,70 @@
-import WillContainer from '../containers/WillContainer/WillContainer'
+import React, { useContext, useEffect , useState } from 'react';
+import { useParams } from 'react-router-dom';
 
-const  WillPage = ({ account }) => {
+import BeneficiariesVault from './../abi/BeneficiariesVault.json';
+import BeneficiaryContainer from '../containers/BeneficiaryContainer/BeneficiaryContainer';
+import Owner from '../containers/OwnerContainer/OwnerContainer';
+import { Web3Context } from './../context/web3-context';
 
-  return <WillContainer account={account} />
+const WillPage = ({ account }) => {
+
+  const web3 = useContext(Web3Context);
+  
+  let { contractAddress } = useParams();
+  const [ownerOrBeneficiary, setOwnerOrBeneficiary] = useState('');
+
+  const [contract, setContract] = useState({});
+
+  useEffect(() => {
+    const getRole = async () => {
+      const contract = new web3.eth.Contract(
+        BeneficiariesVault.abi,
+        contractAddress
+      );
+      setContract(contract);
+
+      const isOwner = await contract.methods.isOwner().call({ from: account });
+
+      const isBeneficiary = await contract.methods
+        .isBeneficiary()
+        .call({ from: account });
+
+      if (isOwner) {
+        setOwnerOrBeneficiary('owner');
+      } else if (isBeneficiary) {
+        //check if account address is Beneficiary address
+        setOwnerOrBeneficiary('beneficiary');
+      } else {
+        //account not autorize to see this page
+        setOwnerOrBeneficiary('not-authorized');
+      }
+      console.log(isOwner);
+    };
+
+    getRole();
+  }, [account]);
+
+  if (ownerOrBeneficiary === '') {
+    return 'loading';
+  } else if (ownerOrBeneficiary === 'owner') {
+    return (
+      <Owner
+        account={account}
+        contract={contract}
+        contractAddress={contractAddress}
+      />
+    );
+  } else if (ownerOrBeneficiary === 'beneficiary') {
+    return (
+      <BeneficiaryContainer
+        account={account}
+        contract={contract}
+        contractAddress={contractAddress}
+      />
+    );
+  } else if (ownerOrBeneficiary === 'not-authorized') {
+    return 'you are not authorized to see this contract';
+  }
 }
 
 export default WillPage;
