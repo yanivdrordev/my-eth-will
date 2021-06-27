@@ -13,6 +13,7 @@ import {
 import { Web3Context } from '../../context/web3-context';
 import AddBeneficiaryModal from './modals/AddBeneficiaryModal';
 import BeneficiariesTable from './components/BeneficiariesTable';
+import DepositForm from './components/DepositForm';
 
 
 const OwnerContainer = ({ account, contract, contractAddress }) => {
@@ -45,6 +46,10 @@ const OwnerContainer = ({ account, contract, contractAddress }) => {
     setDepositeEth(0);
     getContractBalance();
   };
+
+  const onSetDepositeEth = (amount) => {
+    setDepositeEth(amount);
+  }
 
   const onWithdraw = async (e) => {
     e.preventDefault();
@@ -186,15 +191,7 @@ const OwnerContainer = ({ account, contract, contractAddress }) => {
         <Grid.Row>
           <Grid.Column width={5}>
             {/* START DEPOSIT FORM */}
-            <Form onSubmit={onDeposit}>
-              <Form.Field>
-                <input
-                  value={depositeEth}
-                  onChange={(e) => setDepositeEth(e.target.value)}
-                />
-              </Form.Field>
-              <Button type="submit">Deposit</Button>
-            </Form>
+            <DepositForm onDeposit={onDeposit} depositeEth={depositeEth} onSetDepositeEth={onSetDepositeEth} />
             {/* END DEPOSIT FORM */}
           </Grid.Column>
           <Grid.Column width={5}>
