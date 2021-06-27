@@ -10,10 +10,10 @@ import {
   TextArea,
   Input
 } from 'semantic-ui-react';
-import { Web3Context } from '../context/web3-context';
-import AddBeneficiaryModal from './modals/AddBeneficiaryModal';
-import EmailVerificationModal from './modals/EmailVerificationModal';
-import UpdateBeneficiaryAmountModal from "./modals/UpdateBeneficiaryAmountModal";
+import { Web3Context } from '../../../context/web3-context';
+import AddBeneficiaryModal from '../modals/AddBeneficiaryModal';
+import EmailVerificationModal from '../modals/EmailVerificationModal';
+import UpdateBeneficiaryAmountModal from "../modals/UpdateBeneficiaryAmountModal";
 
 const Owner = ({ account, contract, contractAddress }) => {
   const web3 = useContext(Web3Context);

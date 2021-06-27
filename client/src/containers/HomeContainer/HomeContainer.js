@@ -1,12 +1,11 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Button } from 'semantic-ui-react';
-import { Web3Context } from './../context/web3-context';
+import { Web3Context } from './../../context/web3-context';
 
-import VaultFactoryContract from './../abi/VaultFactory.json';
+import VaultFactoryContract from './../../abi/VaultFactory.json';
 
-function HomePage({ account }) {
-
+const HomeContainer = ({account}) => {
   const web3 = useContext(Web3Context);
 
   const [factoryContract, setFactoryContract] = useState(null);
@@ -74,4 +73,4 @@ function HomePage({ account }) {
   );
 }
 
-export default HomePage;
+export default HomeContainer;

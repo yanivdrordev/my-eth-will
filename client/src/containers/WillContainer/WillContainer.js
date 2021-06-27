@@ -1,12 +1,12 @@
 import React, { useContext, useEffect , useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import BeneficiariesVault from './../abi/BeneficiariesVault.json';
-import Beneficiary from './Beneficiary';
-import Owner from './Owner';
-import { Web3Context } from './../context/web3-context';
+import BeneficiariesVault from './../../abi/BeneficiariesVault.json';
+import Beneficiary from './components/Beneficiary';
+import Owner from './components/Owner';
+import { Web3Context } from './../../context/web3-context';
 
-function WillPage({ account }) {
+const WillContainer = ({ account }) => {
 
   const web3 = useContext(Web3Context);
   
@@ -67,4 +67,4 @@ function WillPage({ account }) {
   }
 }
 
-export default WillPage;
+export default WillContainer;
