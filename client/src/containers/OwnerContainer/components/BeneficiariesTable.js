@@ -1,11 +1,7 @@
 
 import {
-  Button,
   Form,
-  Grid,
-  Header,
   Icon,
-  Message,
   Table,
   TextArea,
   Input
@@ -13,7 +9,7 @@ import {
 import EmailVerificationModal from '../modals/EmailVerificationModal';
 import UpdateBeneficiaryAmountModal from "../modals/UpdateBeneficiaryAmountModal";
 
-const BeneficiariesTable = ({beneficiariesStructs, contractAddress, onUpdateBeneficiaryAmount, onSetBeneficiariesStructs}) => {
+const BeneficiariesTable = ({beneficiariesStructs, contractAddress, onUpdateBeneficiaryAmount, setBeneficiariesStructs}) => {
 
   const renderRows = () => {
 
@@ -110,7 +106,7 @@ const BeneficiariesTable = ({beneficiariesStructs, contractAddress, onUpdateBene
                     onChange={(e)=> {
                       const temp = [...beneficiariesStructs];
                       temp[index].amount  = e.target.value;
-                      return onSetBeneficiariesStructs(temp);
+                      return setBeneficiariesStructs(temp);
                     }
                     }
                     name="amount"

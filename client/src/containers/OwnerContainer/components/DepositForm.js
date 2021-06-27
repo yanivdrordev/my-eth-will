@@ -3,13 +3,13 @@ import {
   Form,
 } from 'semantic-ui-react';
 
-const DepositForm = ({onDeposit,depositeEth,onSetDepositeEth}) => {
+const DepositForm = ({onDeposit,depositeEth,setDepositeEth}) => {
   return (
     <Form onSubmit={onDeposit}>
     <Form.Field>
       <input
         value={depositeEth}
-        onChange={(e) => onSetDepositeEth(e.target.value)}
+        onChange={(e) => setDepositeEth(e.target.value)}
       />
     </Form.Field>
     <Button type="submit">Deposit</Button>

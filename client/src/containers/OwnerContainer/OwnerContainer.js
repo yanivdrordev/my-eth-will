@@ -4,16 +4,13 @@ import {
   Form,
   Grid,
   Header,
-  Icon,
-  Message,
-  Table,
-  TextArea,
-  Input
+  Message
 } from 'semantic-ui-react';
 import { Web3Context } from '../../context/web3-context';
 import AddBeneficiaryModal from './modals/AddBeneficiaryModal';
 import BeneficiariesTable from './components/BeneficiariesTable';
 import DepositForm from './components/DepositForm';
+import WithdrawForm from './components/WithdrawForm';
 
 
 const OwnerContainer = ({ account, contract, contractAddress }) => {
@@ -47,9 +44,6 @@ const OwnerContainer = ({ account, contract, contractAddress }) => {
     getContractBalance();
   };
 
-  const onSetDepositeEth = (amount) => {
-    setDepositeEth(amount);
-  }
 
   const onWithdraw = async (e) => {
     e.preventDefault();
@@ -162,10 +156,6 @@ const OwnerContainer = ({ account, contract, contractAddress }) => {
     console.log(beneficiariesAddresses);
   };
 
-  const onSetBeneficiariesStructs = (beneficiariesStructs) => {
-    setBeneficiariesStructs(beneficiariesStructs);
-  };
-
   useEffect(() => {
     getContractBalance();
     getBeneficiariesLength();
@@ -191,20 +181,12 @@ const OwnerContainer = ({ account, contract, contractAddress }) => {
         <Grid.Row>
           <Grid.Column width={5}>
             {/* START DEPOSIT FORM */}
-            <DepositForm onDeposit={onDeposit} depositeEth={depositeEth} onSetDepositeEth={onSetDepositeEth} />
+            <DepositForm onDeposit={onDeposit} depositeEth={depositeEth} setDepositeEth={setDepositeEth} />
             {/* END DEPOSIT FORM */}
           </Grid.Column>
           <Grid.Column width={5}>
             {/* START WITHDRAW FORM */}
-            <Form onSubmit={onWithdraw} error={!!errorMessage}>
-              <Form.Field>
-                <input
-                  value={withdrawEth}
-                  onChange={(e) => setWithdrawEth(e.target.value)}
-                />
-              </Form.Field>
-              <Button type="submit">Withdraw</Button>
-            </Form>
+            <WithdrawForm onWithdraw={onWithdraw} withdrawEth={withdrawEth} setWithdrawEth={setWithdrawEth} />
             {/* END WITHDRAW FORM */}
           </Grid.Column>
           <Grid.Column width={5}>
@@ -258,7 +240,7 @@ const OwnerContainer = ({ account, contract, contractAddress }) => {
               beneficiariesStructs={beneficiariesStructs}
               contractAddress={contractAddress} 
               onUpdateBeneficiaryAmount={onUpdateBeneficiaryAmount} 
-              onSetBeneficiariesStructs={onSetBeneficiariesStructs}
+              setBeneficiariesStructs={setBeneficiariesStructs}
             />
           </Grid.Column>
         </Grid.Row>

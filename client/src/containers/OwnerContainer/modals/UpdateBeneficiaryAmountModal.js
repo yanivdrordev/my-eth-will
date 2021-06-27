@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form, Header, Image, Modal } from 'semantic-ui-react';
+import { Button, Modal } from 'semantic-ui-react';
 
 const UpdateBeneficiaryAmountModal = (props) => {
   const [open, setOpen] = useState(false);
