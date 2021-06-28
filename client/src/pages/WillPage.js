@@ -5,12 +5,15 @@ import BeneficiariesVault from './../abi/BeneficiariesVault.json';
 import BeneficiaryContainer from '../containers/BeneficiaryContainer/BeneficiaryContainer';
 import Owner from '../containers/OwnerContainer/OwnerContainer';
 import { Web3Context } from './../context/web3-context';
+import { contractAddressContext } from './../context/contractAddress-context';
 
 const WillPage = ({ account }) => {
 
   const web3 = useContext(Web3Context);
   
   let { contractAddress } = useParams();
+
+  
   const [ownerOrBeneficiary, setOwnerOrBeneficiary] = useState('');
 
   const [contract, setContract] = useState({});
@@ -48,11 +51,12 @@ const WillPage = ({ account }) => {
     return 'loading';
   } else if (ownerOrBeneficiary === 'owner') {
     return (
+      <contractAddressContext.Provider value = {{contractAddress}}>
       <Owner
         account={account}
         contract={contract}
-        contractAddress={contractAddress}
       />
+      </contractAddressContext.Provider>
     );
   } else if (ownerOrBeneficiary === 'beneficiary') {
     return (

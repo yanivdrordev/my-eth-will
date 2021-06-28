@@ -1,19 +1,14 @@
 import { useContext, useEffect, useState } from 'react';
-import {
-  Button,
-  Form,
-  Grid,
-  Header,
-  Message
-} from 'semantic-ui-react';
+import { Grid, Header, Message } from 'semantic-ui-react';
 import { Web3Context } from '../../context/web3-context';
 import BeneficiariesTable from './components/BeneficiariesTable';
 import DepositForm from './components/DepositForm';
 import WithdrawForm from './components/WithdrawForm';
+import { contractAddressContext } from '../../context/contractAddress-context';
 
-
-const OwnerContainer = ({ account, contract, contractAddress }) => {
+const OwnerContainer = ({ account, contract }) => {
   const web3 = useContext(Web3Context);
+  const {contractAddress} = useContext(contractAddressContext);
   const [contractBalance, setContractBalance] = useState(0);
   const [depositeEth, setDepositeEth] = useState(0);
   const [withdrawEth, setWithdrawEth] = useState(0);
@@ -21,7 +16,7 @@ const OwnerContainer = ({ account, contract, contractAddress }) => {
     address: '',
     email: '',
     name: '',
-    amount: 0
+    amount: 0,
   });
   const [beneficiariesLength, setBeneficiariesLength] = useState(0);
   const [errorMessage, setErrorMessage] = useState('');
@@ -42,7 +37,6 @@ const OwnerContainer = ({ account, contract, contractAddress }) => {
     setDepositeEth(0);
     getContractBalance();
   };
-
 
   const onWithdraw = async (e) => {
     e.preventDefault();
@@ -76,7 +70,7 @@ const OwnerContainer = ({ account, contract, contractAddress }) => {
     }
   };
 
-  const onUpdateBeneficiaryAmount = async (e,index) => {
+  const onUpdateBeneficiaryAmount = async (e, index) => {
     e.preventDefault();
     try {
       const res = await contract.methods
@@ -85,13 +79,12 @@ const OwnerContainer = ({ account, contract, contractAddress }) => {
           web3.utils.toWei(beneficiariesStructs[index].amount, 'ether')
         )
         .send({ from: account });
-        console.log(res)
+      console.log(res);
       getBeneficiariesLength();
     } catch (err) {
       setErrorMessage(err.message);
     }
   };
-
 
   const getContractBalance = async () => {
     const balance = await contract.methods
@@ -138,13 +131,13 @@ const OwnerContainer = ({ account, contract, contractAddress }) => {
           const struct = await contract.methods
             .getBeneficiaryStruct(address)
             .call({ from: account });
-          console.log(struct)
+          console.log(struct);
           return {
             amount: web3.utils.fromWei(struct.amount, 'ether'),
             beneficiarAddress: struct.beneficiarAddress,
             email: struct.email,
             name: struct.name,
-            verifiedAddress: struct.verifiedAddress
+            verifiedAddress: struct.verifiedAddress,
           };
         })
       );
@@ -163,7 +156,6 @@ const OwnerContainer = ({ account, contract, contractAddress }) => {
     }
   }, [beneficiariesLength]);
 
-
   return (
     <div onClick={() => setErrorMessage('')}>
       <Grid>
@@ -180,12 +172,22 @@ const OwnerContainer = ({ account, contract, contractAddress }) => {
         <Grid.Row>
           <Grid.Column width={5}>
             {/* START DEPOSIT FORM */}
-            <DepositForm onDeposit={onDeposit} depositeEth={depositeEth} setDepositeEth={setDepositeEth} />
+            <DepositForm
+              onDeposit={onDeposit}
+              depositeEth={depositeEth}
+              setDepositeEth={setDepositeEth}
+            />
             {/* END DEPOSIT FORM */}
           </Grid.Column>
           <Grid.Column width={5}>
             {/* START WITHDRAW FORM */}
-            <WithdrawForm onWithdraw={onWithdraw} withdrawEth={withdrawEth} setWithdrawEth={setWithdrawEth} />
+            {contractBalance > 0 ? (
+              <WithdrawForm
+                onWithdraw={onWithdraw}
+                withdrawEth={withdrawEth}
+                setWithdrawEth={setWithdrawEth}
+              />
+            ) : null}
             {/* END WITHDRAW FORM */}
           </Grid.Column>
         </Grid.Row>
@@ -198,11 +200,10 @@ const OwnerContainer = ({ account, contract, contractAddress }) => {
       <Grid>
         <Grid.Row>
           <Grid.Column width={16}>
-            <BeneficiariesTable 
+            <BeneficiariesTable
               beneficiariesLength={beneficiariesLength}
               beneficiariesStructs={beneficiariesStructs}
-              contractAddress={contractAddress} 
-              onUpdateBeneficiaryAmount={onUpdateBeneficiaryAmount} 
+              onUpdateBeneficiaryAmount={onUpdateBeneficiaryAmount}
               setBeneficiariesStructs={setBeneficiariesStructs}
               newBeneficiary={newBeneficiary}
               handleAddBeneficiaryChange={handleAddBeneficiaryChange}

@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
-import { Button, Modal } from 'semantic-ui-react';
+import { Button, Modal, Form } from 'semantic-ui-react';
 
-const UpdateBeneficiaryAmountModal = (props) => {
+const UpdateBeneficiaryAmountModal = ({
+  title,
+  beneficiariesStructs,
+  index,
+  setBeneficiariesStructs,
+  submitBtnTitle,
+  onUpdateBeneficiaryAmount,
+}) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -11,15 +18,30 @@ const UpdateBeneficiaryAmountModal = (props) => {
       open={open}
       trigger={<Button>Update Amount</Button>}
     >
-      <Modal.Header>{props.title}</Modal.Header>
-      <Modal.Content>{props.children}</Modal.Content>
+      <Modal.Header>{title}</Modal.Header>
+      <Modal.Content>
+        <Form>
+          <Form.Field>
+            <input
+              placeholder="amount"
+              value={beneficiariesStructs[index].amount}
+              onChange={(e) => {
+                const temp = [...beneficiariesStructs];
+                temp[index].amount = e.target.value;
+                return setBeneficiariesStructs(temp);
+              }}
+              name="amount"
+            />
+          </Form.Field>
+        </Form>
+      </Modal.Content>
       <Modal.Actions>
         <Button
-          content={props.submitBtnTitle}
+          content={submitBtnTitle}
           labelPosition="right"
           icon="checkmark"
           onClick={(e) => {
-            props.onUpdateBeneficiaryAmount(e);
+            onUpdateBeneficiaryAmount(e);
             setOpen(false);
           }}
           positive
