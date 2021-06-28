@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
-import WillPage from './components/WillPage';
-import HomePage from './components/HomePage';
+import WillPage from './pages/WillPage';
+import HomePage from './pages/HomePage';
 import { Button, Container, Menu } from 'semantic-ui-react';
 import { useMetaMask } from 'metamask-react';
 

@@ -2,11 +2,11 @@ import React, { useContext, useEffect , useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import BeneficiariesVault from './../abi/BeneficiariesVault.json';
-import Beneficiary from './Beneficiary';
-import Owner from './Owner';
+import BeneficiaryContainer from '../containers/BeneficiaryContainer/BeneficiaryContainer';
+import Owner from '../containers/OwnerContainer/OwnerContainer';
 import { Web3Context } from './../context/web3-context';
 
-function WillPage({ account }) {
+const WillPage = ({ account }) => {
 
   const web3 = useContext(Web3Context);
   
@@ -56,7 +56,7 @@ function WillPage({ account }) {
     );
   } else if (ownerOrBeneficiary === 'beneficiary') {
     return (
-      <Beneficiary
+      <BeneficiaryContainer
         account={account}
         contract={contract}
         contractAddress={contractAddress}
