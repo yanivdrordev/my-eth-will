@@ -2,24 +2,26 @@ import { Table, Grid } from 'semantic-ui-react';
 import AddBeneficiaryModal from '../modals/AddBeneficiaryModal';
 import BeneficiariesTableRow from './BeneficiariesTableRow';
 
+
 const BeneficiariesTable = ({
   beneficiariesLength,
   beneficiariesStructs,
-  contractAddress,
   onUpdateBeneficiaryAmount,
   setBeneficiariesStructs,
   newBeneficiary,
   handleAddBeneficiaryChange,
   onAddBeneficiary,
 }) => {
+
+
   const renderRows = () => {
     
     return beneficiariesStructs.map((struct, index) => {
       return (
         <BeneficiariesTableRow
+          key={index}
           index={index}
           struct={struct}
-          contractAddress={contractAddress}
           beneficiariesStructs={beneficiariesStructs}
           setBeneficiariesStructs={setBeneficiariesStructs}
           onUpdateBeneficiaryAmount={onUpdateBeneficiaryAmount}

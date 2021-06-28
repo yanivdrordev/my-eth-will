@@ -1,12 +1,14 @@
 import { useContext, useEffect, useState } from 'react';
-import { Button, Form, Grid, Header, Message } from 'semantic-ui-react';
+import { Grid, Header, Message } from 'semantic-ui-react';
 import { Web3Context } from '../../context/web3-context';
 import BeneficiariesTable from './components/BeneficiariesTable';
 import DepositForm from './components/DepositForm';
 import WithdrawForm from './components/WithdrawForm';
+import { contractAddressContext } from '../../context/contractAddress-context';
 
-const OwnerContainer = ({ account, contract, contractAddress }) => {
+const OwnerContainer = ({ account, contract }) => {
   const web3 = useContext(Web3Context);
+  const {contractAddress} = useContext(contractAddressContext);
   const [contractBalance, setContractBalance] = useState(0);
   const [depositeEth, setDepositeEth] = useState(0);
   const [withdrawEth, setWithdrawEth] = useState(0);
@@ -201,7 +203,6 @@ const OwnerContainer = ({ account, contract, contractAddress }) => {
             <BeneficiariesTable
               beneficiariesLength={beneficiariesLength}
               beneficiariesStructs={beneficiariesStructs}
-              contractAddress={contractAddress}
               onUpdateBeneficiaryAmount={onUpdateBeneficiaryAmount}
               setBeneficiariesStructs={setBeneficiariesStructs}
               newBeneficiary={newBeneficiary}

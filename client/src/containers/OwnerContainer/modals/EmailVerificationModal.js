@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Button,
   Message,
@@ -7,9 +7,12 @@ import {
   TextArea,
   Icon,
 } from 'semantic-ui-react';
+import { contractAddressContext } from '../../../context/contractAddress-context';
 
-const EmailVerificationModal = ({ titleWarning, struct, contractAddress }) => {
+const EmailVerificationModal = ({ titleWarning, struct }) => {
+
   const [open, setOpen] = useState(false);
+  const {contractAddress} = useContext(contractAddressContext);
 
   return (
     <Modal

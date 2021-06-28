@@ -5,13 +5,14 @@ import UpdateBeneficiaryAmountModal from '../modals/UpdateBeneficiaryAmountModal
 const BeneficiariesTableRow = ({
   index,
   struct,
-  contractAddress,
   beneficiariesStructs,
   setBeneficiariesStructs,
   onUpdateBeneficiaryAmount
 }) => {
+
+
   return (
-    <Table.Row key={index}>
+    <Table.Row>
       <Table.Cell>{struct.name}</Table.Cell>
       <Table.Cell>{struct.email}</Table.Cell>
       <Table.Cell>{struct.beneficiarAddress}</Table.Cell>
@@ -22,7 +23,6 @@ const BeneficiariesTableRow = ({
           <EmailVerificationModal
             titleWarning="IF YOU DONT USE GMAIL copy this message and sent it manually"
             struct={struct}
-            contractAddress={contractAddress}
           ></EmailVerificationModal>
         )}
       </Table.Cell>
