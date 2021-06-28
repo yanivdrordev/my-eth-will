@@ -1,22 +1,21 @@
-
-import {
-  Form,
-  Icon,
-  Table,
-  TextArea,
-  Input,
-  Grid
-} from 'semantic-ui-react';
+import { Form, Icon, Table, TextArea, Input, Grid } from 'semantic-ui-react';
 import EmailVerificationModal from '../modals/EmailVerificationModal';
-import UpdateBeneficiaryAmountModal from "../modals/UpdateBeneficiaryAmountModal";
+import UpdateBeneficiaryAmountModal from '../modals/UpdateBeneficiaryAmountModal';
 import AddBeneficiaryModal from '../modals/AddBeneficiaryModal';
 
-const BeneficiariesTable = ({beneficiariesLength, beneficiariesStructs, contractAddress, onUpdateBeneficiaryAmount, setBeneficiariesStructs,newBeneficiary,handleAddBeneficiaryChange,onAddBeneficiary}) => {
-
+const BeneficiariesTable = ({
+  beneficiariesLength,
+  beneficiariesStructs,
+  contractAddress,
+  onUpdateBeneficiaryAmount,
+  setBeneficiariesStructs,
+  newBeneficiary,
+  handleAddBeneficiaryChange,
+  onAddBeneficiary,
+}) => {
   const renderRows = () => {
-
     return beneficiariesStructs.map((struct, index) => {
-      console.log(struct)
+      console.log(struct);
       return (
         <Table.Row key={index}>
           <Table.Cell>{struct.name}</Table.Cell>
@@ -91,34 +90,43 @@ const BeneficiariesTable = ({beneficiariesLength, beneficiariesStructs, contract
               </EmailVerificationModal>
             )}
           </Table.Cell>
-          <Table.Cell>{struct.verifiedAddress ? (
-            /* START UPDATE BENEFIARY AMOUNT MODAL FORM */
-            <>
-            <Input disabled value={struct.amount} />
-            <UpdateBeneficiaryAmountModal
-              title="UPDATE BENEFICIARY AMOUNT"
-              submitBtnTitle="UPDATE BENEFICIARY AMOUNT"
-              onUpdateBeneficiaryAmount={(e) => onUpdateBeneficiaryAmount(e,index)}
-            >
-              <Form>
-                <Form.Field>
-                  <input
-                    placeholder="amount"
-                    value={beneficiariesStructs[index].amount}
-                    onChange={(e)=> {
-                      const temp = [...beneficiariesStructs];
-                      temp[index].amount  = e.target.value;
-                      return setBeneficiariesStructs(temp);
-                    }
-                    }
-                    name="amount"
-                  />
-                </Form.Field>
-              </Form>
-            </UpdateBeneficiaryAmountModal>
-            </>
-            /* END ADD BENEFICIARY MODAL FORM */
-            ) : ( <><Icon name='attention' />need to verified benifiary address first <Input disabled value={struct.amount} /></> )}</Table.Cell>
+          <Table.Cell>
+            {struct.verifiedAddress ? (
+              /* START UPDATE BENEFIARY AMOUNT MODAL FORM */
+              <>
+                <Input disabled value={struct.amount} />
+                <UpdateBeneficiaryAmountModal
+                  title="UPDATE BENEFICIARY AMOUNT"
+                  submitBtnTitle="UPDATE BENEFICIARY AMOUNT"
+                  onUpdateBeneficiaryAmount={(e) =>
+                    onUpdateBeneficiaryAmount(e, index)
+                  }
+                >
+                  <Form>
+                    <Form.Field>
+                      <input
+                        placeholder="amount"
+                        value={beneficiariesStructs[index].amount}
+                        onChange={(e) => {
+                          const temp = [...beneficiariesStructs];
+                          temp[index].amount = e.target.value;
+                          return setBeneficiariesStructs(temp);
+                        }}
+                        name="amount"
+                      />
+                    </Form.Field>
+                  </Form>
+                </UpdateBeneficiaryAmountModal>
+              </>
+            ) : (
+              /* END ADD BENEFICIARY MODAL FORM */
+              <>
+                <Icon name="attention" />
+                need to verified benifiary address first{' '}
+                <Input disabled value={struct.amount} />
+              </>
+            )}
+          </Table.Cell>
         </Table.Row>
       );
     });
@@ -126,37 +134,37 @@ const BeneficiariesTable = ({beneficiariesLength, beneficiariesStructs, contract
 
   return (
     <>
-        <Grid>
-    <Grid.Column floated='left' width={6} verticalAlign="bottom">
-    <div>beneficiaries count: {beneficiariesLength}</div>
-    </Grid.Column>
-    <Grid.Column floated='right' width={6} textAlign="right">
-                  {/* START ADD BENEFICIARY MODAL FORM */}
-                  <AddBeneficiaryModal
-              title="ADD NEW BENEFICIARY"
-              newBeneficiary={newBeneficiary}
-              handleAddBeneficiaryChange={handleAddBeneficiaryChange}
-              submitBtnTitle="ADD NEW BENEFICIARY"
-              onAddBeneficiary={onAddBeneficiary}
-            />
-            {/* END ADD BENEFICIARY MODAL FORM */}
-    </Grid.Column>
-  </Grid>
-    <Table celled>
-    <Table.Header>
-      <Table.Row>
-        <Table.HeaderCell>name</Table.HeaderCell>
-        <Table.HeaderCell>email</Table.HeaderCell>
-        <Table.HeaderCell>address</Table.HeaderCell>
-        <Table.HeaderCell>verification status</Table.HeaderCell>
-        <Table.HeaderCell>amount</Table.HeaderCell>
-      </Table.Row>
-    </Table.Header>
+      <Grid>
+        <Grid.Column floated="left" width={6} verticalAlign="bottom">
+          <div>beneficiaries count: {beneficiariesLength}</div>
+        </Grid.Column>
+        <Grid.Column floated="right" width={6} textAlign="right">
+          {/* START ADD BENEFICIARY MODAL FORM */}
+          <AddBeneficiaryModal
+            title="ADD NEW BENEFICIARY"
+            newBeneficiary={newBeneficiary}
+            handleAddBeneficiaryChange={handleAddBeneficiaryChange}
+            submitBtnTitle="ADD NEW BENEFICIARY"
+            onAddBeneficiary={onAddBeneficiary}
+          />
+          {/* END ADD BENEFICIARY MODAL FORM */}
+        </Grid.Column>
+      </Grid>
+      <Table celled>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell>name</Table.HeaderCell>
+            <Table.HeaderCell>email</Table.HeaderCell>
+            <Table.HeaderCell>address</Table.HeaderCell>
+            <Table.HeaderCell>verification status</Table.HeaderCell>
+            <Table.HeaderCell>amount</Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
 
-    <Table.Body>{renderRows()}</Table.Body>
-  </Table>
-  </>
-  )
-}
+        <Table.Body>{renderRows()}</Table.Body>
+      </Table>
+    </>
+  );
+};
 
 export default BeneficiariesTable;

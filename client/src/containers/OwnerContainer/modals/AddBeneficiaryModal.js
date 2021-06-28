@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import { Button, Modal, Form } from 'semantic-ui-react';
 
-const AddBeneficiaryModal = ({title,newBeneficiary, handleAddBeneficiaryChange, submitBtnTitle, onAddBeneficiary}) => {
+const AddBeneficiaryModal = ({
+  title,
+  newBeneficiary,
+  handleAddBeneficiaryChange,
+  submitBtnTitle,
+  onAddBeneficiary,
+}) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -13,32 +19,32 @@ const AddBeneficiaryModal = ({title,newBeneficiary, handleAddBeneficiaryChange, 
     >
       <Modal.Header>{title}</Modal.Header>
       <Modal.Content>
-      <Form>
-                <Form.Field>
-                  <input
-                    placeholder="address"
-                    value={newBeneficiary.address}
-                    onChange={handleAddBeneficiaryChange}
-                    name="address"
-                  />
-                </Form.Field>
-                <Form.Field>
-                  <input
-                    placeholder="email"
-                    value={newBeneficiary.email}
-                    onChange={handleAddBeneficiaryChange}
-                    name="email"
-                  />
-                </Form.Field>
-                <Form.Field>
-                  <input
-                    placeholder="name"
-                    value={newBeneficiary.name}
-                    onChange={handleAddBeneficiaryChange}
-                    name="name"
-                  />
-                </Form.Field>
-              </Form>
+        <Form>
+          <Form.Field>
+            <input
+              placeholder="address"
+              value={newBeneficiary.address}
+              onChange={handleAddBeneficiaryChange}
+              name="address"
+            />
+          </Form.Field>
+          <Form.Field>
+            <input
+              placeholder="email"
+              value={newBeneficiary.email}
+              onChange={handleAddBeneficiaryChange}
+              name="email"
+            />
+          </Form.Field>
+          <Form.Field>
+            <input
+              placeholder="name"
+              value={newBeneficiary.name}
+              onChange={handleAddBeneficiaryChange}
+              name="name"
+            />
+          </Form.Field>
+        </Form>
       </Modal.Content>
       <Modal.Actions>
         <Button
