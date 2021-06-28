@@ -4,12 +4,14 @@ import {
   Icon,
   Table,
   TextArea,
-  Input
+  Input,
+  Grid
 } from 'semantic-ui-react';
 import EmailVerificationModal from '../modals/EmailVerificationModal';
 import UpdateBeneficiaryAmountModal from "../modals/UpdateBeneficiaryAmountModal";
+import AddBeneficiaryModal from '../modals/AddBeneficiaryModal';
 
-const BeneficiariesTable = ({beneficiariesStructs, contractAddress, onUpdateBeneficiaryAmount, setBeneficiariesStructs}) => {
+const BeneficiariesTable = ({beneficiariesLength, beneficiariesStructs, contractAddress, onUpdateBeneficiaryAmount, setBeneficiariesStructs,newBeneficiary,handleAddBeneficiaryChange,onAddBeneficiary}) => {
 
   const renderRows = () => {
 
@@ -123,6 +125,23 @@ const BeneficiariesTable = ({beneficiariesStructs, contractAddress, onUpdateBene
   };
 
   return (
+    <>
+        <Grid>
+    <Grid.Column floated='left' width={6} verticalAlign="bottom">
+    <div>beneficiaries count: {beneficiariesLength}</div>
+    </Grid.Column>
+    <Grid.Column floated='right' width={6} textAlign="right">
+                  {/* START ADD BENEFICIARY MODAL FORM */}
+                  <AddBeneficiaryModal
+              title="ADD NEW BENEFICIARY"
+              newBeneficiary={newBeneficiary}
+              handleAddBeneficiaryChange={handleAddBeneficiaryChange}
+              submitBtnTitle="ADD NEW BENEFICIARY"
+              onAddBeneficiary={onAddBeneficiary}
+            />
+            {/* END ADD BENEFICIARY MODAL FORM */}
+    </Grid.Column>
+  </Grid>
     <Table celled>
     <Table.Header>
       <Table.Row>
@@ -136,6 +155,7 @@ const BeneficiariesTable = ({beneficiariesStructs, contractAddress, onUpdateBene
 
     <Table.Body>{renderRows()}</Table.Body>
   </Table>
+  </>
   )
 }
 

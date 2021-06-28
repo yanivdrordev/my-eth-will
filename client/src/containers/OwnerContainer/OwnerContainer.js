@@ -7,7 +7,6 @@ import {
   Message
 } from 'semantic-ui-react';
 import { Web3Context } from '../../context/web3-context';
-import AddBeneficiaryModal from './modals/AddBeneficiaryModal';
 import BeneficiariesTable from './components/BeneficiariesTable';
 import DepositForm from './components/DepositForm';
 import WithdrawForm from './components/WithdrawForm';
@@ -189,17 +188,6 @@ const OwnerContainer = ({ account, contract, contractAddress }) => {
             <WithdrawForm onWithdraw={onWithdraw} withdrawEth={withdrawEth} setWithdrawEth={setWithdrawEth} />
             {/* END WITHDRAW FORM */}
           </Grid.Column>
-          <Grid.Column width={5}>
-            {/* START ADD BENEFICIARY MODAL FORM */}
-            <AddBeneficiaryModal
-              title="ADD NEW BENEFICIARY"
-              newBeneficiary={newBeneficiary}
-              handleAddBeneficiaryChange={handleAddBeneficiaryChange}
-              submitBtnTitle="ADD NEW BENEFICIARY"
-              onAddBeneficiary={onAddBeneficiary}
-            />
-            {/* END ADD BENEFICIARY MODAL FORM */}
-          </Grid.Column>
         </Grid.Row>
         <Grid.Row>
           {errorMessage ? (
@@ -209,13 +197,16 @@ const OwnerContainer = ({ account, contract, contractAddress }) => {
       </Grid>
       <Grid>
         <Grid.Row>
-          <Grid.Column width={5}>
-            <div>beneficiariesLength: {beneficiariesLength}</div>
+          <Grid.Column width={16}>
             <BeneficiariesTable 
+              beneficiariesLength={beneficiariesLength}
               beneficiariesStructs={beneficiariesStructs}
               contractAddress={contractAddress} 
               onUpdateBeneficiaryAmount={onUpdateBeneficiaryAmount} 
               setBeneficiariesStructs={setBeneficiariesStructs}
+              newBeneficiary={newBeneficiary}
+              handleAddBeneficiaryChange={handleAddBeneficiaryChange}
+              onAddBeneficiary={onAddBeneficiary}
             />
           </Grid.Column>
         </Grid.Row>
