@@ -10,6 +10,7 @@ const OwnerContainer = ({ account, contract }) => {
   const web3 = useContext(Web3Context);
   const {contractAddress} = useContext(contractAddressContext);
   const [contractBalance, setContractBalance] = useState(0);
+  const [unassignAmount , setUnassignAmount] = useState(0);
   const [depositeEth, setDepositeEth] = useState(0);
   const [withdrawEth, setWithdrawEth] = useState(0);
   const [newBeneficiary, setNewBeneficiary] = useState({
@@ -94,6 +95,20 @@ const OwnerContainer = ({ account, contract }) => {
     setContractBalance(balance);
   };
 
+  const getUnassignAmount = async () => {
+
+    try {
+      const unassignAmount = await contract.methods
+      .ow_GetUnassignAmount()
+      .call({ from: account });
+
+      setUnassignAmount(unassignAmount);
+    } catch (err) {
+      setErrorMessage(err.message);
+    }
+
+  };
+
   const getBeneficiariesLength = async () => {
     try {
       const beneficiaries = await contract.methods
@@ -151,6 +166,7 @@ const OwnerContainer = ({ account, contract }) => {
   useEffect(() => {
     getContractBalance();
     getBeneficiariesLength();
+    getUnassignAmount();
     if (beneficiariesLength) {
       parseBeneficiaries();
     }
@@ -164,7 +180,8 @@ const OwnerContainer = ({ account, contract }) => {
         </Grid.Column>
         <Grid.Column floated="right" width={5}>
           <Header as="h2">
-            balance: {web3.utils.fromWei(contractBalance.toString(), 'ether')}
+            balance: {web3.utils.fromWei(contractBalance.toString(), 'ether')} <br />
+            unassign amount : {web3.utils.fromWei(unassignAmount.toString(), 'ether')}
           </Header>
         </Grid.Column>
       </Grid>
