@@ -2,7 +2,6 @@ import { Table, Grid } from 'semantic-ui-react';
 import AddBeneficiaryModal from '../modals/AddBeneficiaryModal';
 import BeneficiariesTableRow from './BeneficiariesTableRow';
 
-
 const BeneficiariesTable = ({
   beneficiariesLength,
   beneficiariesStructs,
@@ -12,10 +11,7 @@ const BeneficiariesTable = ({
   handleAddBeneficiaryChange,
   onAddBeneficiary,
 }) => {
-
-
   const renderRows = () => {
-    
     return beneficiariesStructs.map((struct, index) => {
       return (
         <BeneficiariesTableRow
@@ -51,11 +47,12 @@ const BeneficiariesTable = ({
       <Table celled>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell>name</Table.HeaderCell>
-            <Table.HeaderCell>email</Table.HeaderCell>
-            <Table.HeaderCell>address</Table.HeaderCell>
-            <Table.HeaderCell>verification status</Table.HeaderCell>
-            <Table.HeaderCell>amount</Table.HeaderCell>
+            <Table.HeaderCell>Actions</Table.HeaderCell>
+            <Table.HeaderCell>Name</Table.HeaderCell>
+            <Table.HeaderCell>Email</Table.HeaderCell>
+            <Table.HeaderCell>Address</Table.HeaderCell>
+            <Table.HeaderCell>Verification Status</Table.HeaderCell>
+            <Table.HeaderCell>Amount</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 

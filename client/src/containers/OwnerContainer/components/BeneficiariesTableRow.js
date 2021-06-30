@@ -1,4 +1,4 @@
-import { Icon, Table, Input } from 'semantic-ui-react';
+import { Icon, Table, Input, Button } from 'semantic-ui-react';
 import EmailVerificationModal from '../modals/EmailVerificationModal';
 import UpdateBeneficiaryAmountModal from '../modals/UpdateBeneficiaryAmountModal';
 
@@ -7,12 +7,32 @@ const BeneficiariesTableRow = ({
   struct,
   beneficiariesStructs,
   setBeneficiariesStructs,
-  onUpdateBeneficiaryAmount
+  onUpdateBeneficiaryAmount,
 }) => {
-
-
   return (
     <Table.Row>
+      <Table.Cell>
+        {/* Actions */}
+        {struct.verifiedAddress ? (
+          <>
+            <UpdateBeneficiaryAmountModal
+              title="UPDATE BENEFICIARY AMOUNT"
+              beneficiariesStructs={beneficiariesStructs}
+              index={index}
+              setBeneficiariesStructs={setBeneficiariesStructs}
+              submitBtnTitle="UPDATE BENEFICIARY AMOUNT"
+              onUpdateBeneficiaryAmount={(e) =>
+                onUpdateBeneficiaryAmount(e, index)
+              }
+            ></UpdateBeneficiaryAmountModal>
+          </>
+        ) : (
+          <Button disabled icon labelPosition="left">
+            <Icon name="edit" />
+            Add/Update Amount
+          </Button>
+        )}
+      </Table.Cell>
       <Table.Cell>{struct.name}</Table.Cell>
       <Table.Cell>{struct.email}</Table.Cell>
       <Table.Cell>{struct.beneficiarAddress}</Table.Cell>
@@ -31,16 +51,6 @@ const BeneficiariesTableRow = ({
           /* START UPDATE BENEFIARY AMOUNT MODAL FORM */
           <>
             <Input disabled value={struct.amount} />
-            <UpdateBeneficiaryAmountModal
-              title="UPDATE BENEFICIARY AMOUNT"
-              beneficiariesStructs={beneficiariesStructs}
-              index={index}
-              setBeneficiariesStructs={setBeneficiariesStructs}
-              submitBtnTitle="UPDATE BENEFICIARY AMOUNT"
-              onUpdateBeneficiaryAmount={(e) =>
-                onUpdateBeneficiaryAmount(e, index)
-              }
-            ></UpdateBeneficiaryAmountModal>
           </>
         ) : (
           /* END ADD BENEFICIARY MODAL FORM */

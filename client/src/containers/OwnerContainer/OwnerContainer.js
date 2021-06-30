@@ -8,9 +8,9 @@ import { contractAddressContext } from '../../context/contractAddress-context';
 
 const OwnerContainer = ({ account, contract }) => {
   const web3 = useContext(Web3Context);
-  const {contractAddress} = useContext(contractAddressContext);
+  const { contractAddress } = useContext(contractAddressContext);
   const [contractBalance, setContractBalance] = useState(0);
-  const [unassignAmount , setUnassignAmount] = useState(0);
+  const [unassignAmount, setUnassignAmount] = useState(0);
   const [depositeEth, setDepositeEth] = useState(0);
   const [withdrawEth, setWithdrawEth] = useState(0);
   const [newBeneficiary, setNewBeneficiary] = useState({
@@ -80,10 +80,10 @@ const OwnerContainer = ({ account, contract }) => {
           web3.utils.toWei(beneficiariesStructs[index].amount, 'ether')
         )
         .send({ from: account });
-      console.log(res);
       getBeneficiariesLength();
+      return res;
     } catch (err) {
-      setErrorMessage(err.message);
+      throw new Error(err.message);
     }
   };
 
@@ -96,17 +96,15 @@ const OwnerContainer = ({ account, contract }) => {
   };
 
   const getUnassignAmount = async () => {
-
     try {
       const unassignAmount = await contract.methods
-      .ow_GetUnassignAmount()
-      .call({ from: account });
+        .ow_GetUnassignAmount()
+        .call({ from: account });
 
       setUnassignAmount(unassignAmount);
     } catch (err) {
       setErrorMessage(err.message);
     }
-
   };
 
   const getBeneficiariesLength = async () => {
@@ -180,8 +178,10 @@ const OwnerContainer = ({ account, contract }) => {
         </Grid.Column>
         <Grid.Column floated="right" width={5}>
           <Header as="h2">
-            balance: {web3.utils.fromWei(contractBalance.toString(), 'ether')} <br />
-            unassign amount : {web3.utils.fromWei(unassignAmount.toString(), 'ether')}
+            balance: {web3.utils.fromWei(contractBalance.toString(), 'ether')}{' '}
+            <br />
+            unassign amount :{' '}
+            {web3.utils.fromWei(unassignAmount.toString(), 'ether')}
           </Header>
         </Grid.Column>
       </Grid>
