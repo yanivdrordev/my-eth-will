@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 //add ownable
 import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
-
+import "@openzeppelin/contracts/utils//math/SafeMath.sol";
 
 contract BeneficiariesVault {
     
@@ -14,6 +14,7 @@ contract BeneficiariesVault {
     
     //START STATE VARIBLES
     address private _owner;
+    uint private _sumOfAllBeneficiaries;
     
     event Deposit(address sender, uint value);
     
@@ -49,6 +50,7 @@ contract BeneficiariesVault {
         deadlineTimestamp = block.timestamp + (365 * 1 days);
         withdrawAllowed = false;
         _owner = _vaultOwner;
+        _sumOfAllBeneficiaries = 0;
     }
     
     //START UTIL FUNCTIONS
@@ -107,7 +109,7 @@ contract BeneficiariesVault {
         
         return beneficiaries[_beneficiaryAddress];
     }
-    
+
     function ow_AddBeneficiary(address _newBeneficiaryAddress, string memory _newBeneficiaryEmail, string memory _newBeneficiaryName) public onlyOwner{
         
         require(!isContains(_newBeneficiaryAddress),"beneficiary address already exist!");
@@ -117,17 +119,27 @@ contract BeneficiariesVault {
         beneficiariesAddresses.add(_newBeneficiaryAddress);
     }
 
-    function ow_UpdateBeneficiaryAmount(address _beneficiaryAddress, uint _amount) public onlyOwner{
+    function ow_UpdateBeneficiaryAmount(address _beneficiaryAddress, uint _amount) public OnlyBeneficiary(_beneficiaryAddress) onlyOwner{
         
         require(isContains(_beneficiaryAddress),"beneficiary address not found!");
         require(beneficiaries[_beneficiaryAddress].verifiedAddress == true,"beneficiary address not yet verified");
+        require(_amount <= ow_GetUnassignAmount() ,"amount is bigger than available");
+        //substract the old amount before adding the new one for uscases after when there is more than one update
+        (bool isSub, uint sumMinusOldAmount) = SafeMath.trySub(_sumOfAllBeneficiaries, beneficiaries[_beneficiaryAddress].amount);
+        require(isSub, "somthing is wrong in the amounts calculations");
         
+        (bool isAdd, uint sum) = SafeMath.tryAdd(sumMinusOldAmount, _amount);
+        require(isAdd, "amount addition not working as expected");
         
         beneficiaries[_beneficiaryAddress].amount = _amount;
+        _sumOfAllBeneficiaries = sum;
     }
     
     function ow_RemoveBeneficiary(address _beneficiaryAddress) public OnlyBeneficiary(_beneficiaryAddress) onlyOwner{
 
+        (bool isSub, uint sumMinusDeletedAccountAmount) = SafeMath.trySub(_sumOfAllBeneficiaries, beneficiaries[_beneficiaryAddress].amount);
+        require(isSub, "somthing is wrong in the amounts calculations");
+        _sumOfAllBeneficiaries = sumMinusDeletedAccountAmount;
         //remove from beneficiaries mapping
         delete beneficiaries[_beneficiaryAddress];
         //remove from beneficiariesAddresses set
@@ -145,6 +157,12 @@ contract BeneficiariesVault {
     function ow_GetBeneficiariesAtIndex(uint index) public view onlyOwner returns(address) {
         require(index < beneficiariesAddresses.length());
         return beneficiariesAddresses.at(index);
+    }
+    
+    function ow_GetUnassignAmount() public view onlyOwner returns(uint) {
+        (bool isSub, uint unassignAmount) = SafeMath.trySub(getContractBalance(), _sumOfAllBeneficiaries);
+        require(isSub, "somthing is wrong in the amounts calculations");
+        return unassignAmount;
     }
     
     function be_Withdraw(address payable _beneficiaryAddress) public payable OnlyBeneficiary(_beneficiaryAddress){

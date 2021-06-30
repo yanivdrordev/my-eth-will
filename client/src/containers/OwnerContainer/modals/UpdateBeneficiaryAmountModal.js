@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Modal, Form } from 'semantic-ui-react';
+import { Button, Modal, Form, Message, Icon, Grid } from 'semantic-ui-react';
 
 const UpdateBeneficiaryAmountModal = ({
   title,
@@ -10,13 +10,22 @@ const UpdateBeneficiaryAmountModal = ({
   onUpdateBeneficiaryAmount,
 }) => {
   const [open, setOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [inputValue, setInputValue] = useState(
+    beneficiariesStructs[index].amount
+  );
 
   return (
     <Modal
       onClose={() => setOpen(false)}
-      onOpen={() => setOpen(true)}
+      onOpen={() => {setOpen(true); setErrorMessage('')}}
       open={open}
-      trigger={<Button>Update Amount</Button>}
+      trigger={
+        <Button icon labelPosition="left">
+          <Icon name="edit" />
+          Add/Update Amount
+        </Button>
+      }
     >
       <Modal.Header>{title}</Modal.Header>
       <Modal.Content>
@@ -24,11 +33,9 @@ const UpdateBeneficiaryAmountModal = ({
           <Form.Field>
             <input
               placeholder="amount"
-              value={beneficiariesStructs[index].amount}
+              value={inputValue}
               onChange={(e) => {
-                const temp = [...beneficiariesStructs];
-                temp[index].amount = e.target.value;
-                return setBeneficiariesStructs(temp);
+                setInputValue(e.target.value);
               }}
               name="amount"
             />
@@ -41,11 +48,22 @@ const UpdateBeneficiaryAmountModal = ({
           labelPosition="right"
           icon="checkmark"
           onClick={(e) => {
-            onUpdateBeneficiaryAmount(e);
-            setOpen(false);
+            onUpdateBeneficiaryAmount(e,index,inputValue)
+              .then((res) => {
+                const temp = [...beneficiariesStructs];
+                temp[index].amount = inputValue;
+                setBeneficiariesStructs(temp);
+                setOpen(false);
+              })
+              .catch((err) => {
+                setErrorMessage(err.toString());
+              });
           }}
           positive
         />
+        {errorMessage ? (
+          <Message error header="Oops!" content={errorMessage} />
+        ) : null}
       </Modal.Actions>
     </Modal>
   );

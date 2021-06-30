@@ -10,16 +10,20 @@ import {
 import { contractAddressContext } from '../../../context/contractAddress-context';
 
 const EmailVerificationModal = ({ titleWarning, struct }) => {
-
   const [open, setOpen] = useState(false);
-  const {contractAddress} = useContext(contractAddressContext);
+  const { contractAddress } = useContext(contractAddressContext);
 
   return (
     <Modal
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
       open={open}
-      trigger={<Button>send email</Button>}
+      trigger={
+        <Button icon labelPosition="left">
+          <Icon name="mail" />
+          Send Email
+        </Button>
+      }
     >
       <Modal.Header>
         <Message warning header={titleWarning} />

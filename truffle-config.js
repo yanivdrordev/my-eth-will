@@ -3,6 +3,7 @@ const path = require('path');
 module.exports = {
   // See <http://truffleframework.com/docs/advanced/configuration>
   // to customize your Truffle configuration!
+  // truffle migrate --network ganach --reset
   contracts_build_directory: path.join(__dirname, 'client/src/abi'),
   networks: {
     develop: {

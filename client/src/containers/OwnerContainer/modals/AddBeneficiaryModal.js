@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Modal, Form } from 'semantic-ui-react';
+import { Button, Modal, Form, Icon } from 'semantic-ui-react';
 
 const AddBeneficiaryModal = ({
   title,
@@ -15,7 +15,12 @@ const AddBeneficiaryModal = ({
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
       open={open}
-      trigger={<Button>Add Benefiary</Button>}
+      trigger={
+        <Button icon labelPosition="left">
+          <Icon name="add" />
+          Add Beneficiary
+        </Button>
+      }
     >
       <Modal.Header>{title}</Modal.Header>
       <Modal.Content>
