@@ -48,7 +48,7 @@ const UpdateBeneficiaryAmountModal = ({
           labelPosition="right"
           icon="checkmark"
           onClick={(e) => {
-            onUpdateBeneficiaryAmount(e)
+            onUpdateBeneficiaryAmount(e,index,inputValue)
               .then((res) => {
                 const temp = [...beneficiariesStructs];
                 temp[index].amount = inputValue;

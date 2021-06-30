@@ -119,7 +119,7 @@ contract BeneficiariesVault {
         beneficiariesAddresses.add(_newBeneficiaryAddress);
     }
 
-    function ow_UpdateBeneficiaryAmount(address _beneficiaryAddress, uint _amount) public onlyOwner{
+    function ow_UpdateBeneficiaryAmount(address _beneficiaryAddress, uint _amount) public OnlyBeneficiary(_beneficiaryAddress) onlyOwner{
         
         require(isContains(_beneficiaryAddress),"beneficiary address not found!");
         require(beneficiaries[_beneficiaryAddress].verifiedAddress == true,"beneficiary address not yet verified");
@@ -137,6 +137,9 @@ contract BeneficiariesVault {
     
     function ow_RemoveBeneficiary(address _beneficiaryAddress) public OnlyBeneficiary(_beneficiaryAddress) onlyOwner{
 
+        (bool isSub, uint sumMinusDeletedAccountAmount) = SafeMath.trySub(_sumOfAllBeneficiaries, beneficiaries[_beneficiaryAddress].amount);
+        require(isSub, "somthing is wrong in the amounts calculations");
+        _sumOfAllBeneficiaries = sumMinusDeletedAccountAmount;
         //remove from beneficiaries mapping
         delete beneficiaries[_beneficiaryAddress];
         //remove from beneficiariesAddresses set

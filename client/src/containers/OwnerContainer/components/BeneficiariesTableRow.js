@@ -9,7 +9,7 @@ const BeneficiariesTableRow = ({
   beneficiariesStructs,
   setBeneficiariesStructs,
   onUpdateBeneficiaryAmount,
-  onDeleteBeneficiary
+  onDeleteBeneficiary,
 }) => {
   return (
     <Table.Row>
@@ -24,23 +24,27 @@ const BeneficiariesTableRow = ({
                 index={index}
                 setBeneficiariesStructs={setBeneficiariesStructs}
                 submitBtnTitle="UPDATE BENEFICIARY AMOUNT"
-                onUpdateBeneficiaryAmount={(e) =>
-                  onUpdateBeneficiaryAmount(e, index)
+                onUpdateBeneficiaryAmount={(e, index, amount) =>
+                  onUpdateBeneficiaryAmount(e, index, amount)
                 }
               ></UpdateBeneficiaryAmountModal>
               <DeleteBeneficiaryModal
-              title="DELETE BENEFICIARY"
-              onDeleteBeneficiary={(e) =>
-                onDeleteBeneficiary(e, index)
-              }
+                title="DELETE BENEFICIARY"
+                onDeleteBeneficiary={(e) => onDeleteBeneficiary(e, index)}
               ></DeleteBeneficiaryModal>
             </Button.Group>
           </>
         ) : (
-          <Button disabled icon labelPosition="left">
-            <Icon name="edit" />
-            Add/Update Amount
-          </Button>
+          <Button.Group vertical labeled icon>
+            <Button disabled icon labelPosition="left">
+              <Icon name="edit" />
+              Add/Update Amount
+            </Button>
+            <DeleteBeneficiaryModal
+              title="DELETE BENEFICIARY"
+              onDeleteBeneficiary={(e) => onDeleteBeneficiary(e, index)}
+            ></DeleteBeneficiaryModal>
+          </Button.Group>
         )}
       </Table.Cell>
       <Table.Cell>{struct.name}</Table.Cell>

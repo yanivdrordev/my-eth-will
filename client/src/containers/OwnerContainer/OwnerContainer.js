@@ -71,13 +71,13 @@ const OwnerContainer = ({ account, contract }) => {
     }
   };
 
-  const onUpdateBeneficiaryAmount = async (e, index) => {
+  const onUpdateBeneficiaryAmount = async (e,index,amount) => {
     e.preventDefault();
     try {
       const res = await contract.methods
         .ow_UpdateBeneficiaryAmount(
           beneficiariesStructs[index].beneficiarAddress,
-          web3.utils.toWei(beneficiariesStructs[index].amount, 'ether')
+          web3.utils.toWei(amount, 'ether')
         )
         .send({ from: account });
       getBeneficiariesLength();
