@@ -9,6 +9,7 @@ const BeneficiariesTableRow = ({
   beneficiariesStructs,
   setBeneficiariesStructs,
   onUpdateBeneficiaryAmount,
+  onDeleteBeneficiary
 }) => {
   return (
     <Table.Row>
@@ -27,7 +28,12 @@ const BeneficiariesTableRow = ({
                   onUpdateBeneficiaryAmount(e, index)
                 }
               ></UpdateBeneficiaryAmountModal>
-              <DeleteBeneficiaryModal></DeleteBeneficiaryModal>
+              <DeleteBeneficiaryModal
+              title="DELETE BENEFICIARY"
+              onDeleteBeneficiary={(e) =>
+                onDeleteBeneficiary(e, index)
+              }
+              ></DeleteBeneficiaryModal>
             </Button.Group>
           </>
         ) : (

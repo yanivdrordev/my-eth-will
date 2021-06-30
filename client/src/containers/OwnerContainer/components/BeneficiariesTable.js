@@ -10,6 +10,7 @@ const BeneficiariesTable = ({
   newBeneficiary,
   handleAddBeneficiaryChange,
   onAddBeneficiary,
+  onDeleteBeneficiary
 }) => {
   const renderRows = () => {
     return beneficiariesStructs.map((struct, index) => {
@@ -21,6 +22,7 @@ const BeneficiariesTable = ({
           beneficiariesStructs={beneficiariesStructs}
           setBeneficiariesStructs={setBeneficiariesStructs}
           onUpdateBeneficiaryAmount={onUpdateBeneficiaryAmount}
+          onDeleteBeneficiary={onDeleteBeneficiary}
         />
       );
     });

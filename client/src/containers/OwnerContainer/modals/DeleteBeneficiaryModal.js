@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Modal, Icon } from 'semantic-ui-react';
 
-const DeleteBeneficiaryModal = ({ title }) => {
+const DeleteBeneficiaryModal = ({ title , onDeleteBeneficiary}) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -26,7 +26,7 @@ const DeleteBeneficiaryModal = ({ title }) => {
           content="Yep, that's me"
           labelPosition="right"
           icon="checkmark"
-          onClick={() => setOpen(false)}
+          onClick={(e) => {onDeleteBeneficiary(e);setOpen(false)}}
           positive
         />
       </Modal.Actions>

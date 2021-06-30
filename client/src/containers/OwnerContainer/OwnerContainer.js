@@ -87,6 +87,20 @@ const OwnerContainer = ({ account, contract }) => {
     }
   };
 
+  const onDeleteBeneficiary = async (e, index) => {
+    e.preventDefault();
+    try {
+      const res = await contract.methods
+        .ow_RemoveBeneficiary(
+          beneficiariesStructs[index].beneficiarAddress,
+        )
+        .send({ from: account });
+      return res;
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  };
+
   const getContractBalance = async () => {
     const balance = await contract.methods
       .getContractBalance()
@@ -225,6 +239,7 @@ const OwnerContainer = ({ account, contract }) => {
               newBeneficiary={newBeneficiary}
               handleAddBeneficiaryChange={handleAddBeneficiaryChange}
               onAddBeneficiary={onAddBeneficiary}
+              onDeleteBeneficiary={onDeleteBeneficiary}
             />
           </Grid.Column>
         </Grid.Row>
