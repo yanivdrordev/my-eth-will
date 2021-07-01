@@ -23,7 +23,7 @@ contract BeneficiariesVault {
     // Add the library methods
     using EnumerableSet for EnumerableSet.AddressSet;
     
-    //using Strings for uint256;
+    //using Strings for uint;
     
     // Declare a set state variable
     EnumerableSet.AddressSet private beneficiariesAddresses;
@@ -39,7 +39,7 @@ contract BeneficiariesVault {
     //map address to struct
     mapping(address => BeneficiariesStruct) private beneficiaries;
     
-    uint256 deadlineTimestamp;
+    uint deadlineTimestamp;
     
     bool withdrawAllowed;
     
@@ -99,7 +99,7 @@ contract BeneficiariesVault {
     
     //START CONTRACT PUBLIC API
     
-    function getContractBalance() public view OwnerOrBeneficiary(msg.sender) returns (uint256) {
+    function getContractBalance() public view OwnerOrBeneficiary(msg.sender) returns (uint) {
         return address(this).balance;
     }
     
@@ -121,7 +121,6 @@ contract BeneficiariesVault {
 
     function ow_UpdateBeneficiaryAmount(address _beneficiaryAddress, uint _amount) public OnlyBeneficiary(_beneficiaryAddress) onlyOwner{
         
-        require(isContains(_beneficiaryAddress),"beneficiary address not found!");
         require(beneficiaries[_beneficiaryAddress].verifiedAddress == true,"beneficiary address not yet verified");
         require(_amount <= ow_GetUnassignAmount() ,"amount is bigger than available");
         //substract the old amount before adding the new one for uscases after when there is more than one update
@@ -164,6 +163,15 @@ contract BeneficiariesVault {
         require(isSub, "somthing is wrong in the amounts calculations");
         return unassignAmount;
     }
+
+    function ow_GetOwnerPageSummary() public view onlyOwner returns(uint, uint, uint) {
+
+        return (
+            getContractBalance(),
+            ow_GetUnassignAmount(),
+            ow_GetBeneficiariesLength()
+        );
+    }
     
     function be_Withdraw(address payable _beneficiaryAddress) public payable OnlyBeneficiary(_beneficiaryAddress){
         //check that withdraw is allowed
@@ -179,12 +187,12 @@ contract BeneficiariesVault {
         beneficiaries[msg.sender].verifiedAddress = true;
     }
     
-    function ow_SetDeadlineFromToday(uint256 _numberOfDays) public onlyOwner {
+    function ow_SetDeadlineFromToday(uint _numberOfDays) public onlyOwner {
         require(_numberOfDays > 7 && _numberOfDays < 365 , "extension is set only in days that are greater then 7 and lower then 365");
         deadlineTimestamp = block.timestamp + (_numberOfDays * 1 days);
     }
     
-    function getDeadlineTimestamp() public view OwnerOrBeneficiary(msg.sender) returns(uint256){
+    function getDeadlineTimestamp() public view OwnerOrBeneficiary(msg.sender) returns(uint){
         return deadlineTimestamp;
     }
     
