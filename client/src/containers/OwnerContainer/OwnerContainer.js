@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useCallback } from 'react';
 import { Grid, Header, Message } from 'semantic-ui-react';
 import { Web3Context } from '../../context/web3-context';
 import BeneficiariesTable from './components/BeneficiariesTable';
@@ -34,9 +34,8 @@ const OwnerContainer = ({ account, contract }) => {
     } catch (err) {
       setErrorMessage(err.message);
     }
-
+    await getOwnerPageSummary();
     setDepositeEth(0);
-    getContractBalance();
   };
 
   const onWithdraw = async (e) => {
@@ -49,9 +48,8 @@ const OwnerContainer = ({ account, contract }) => {
     } catch (err) {
       setErrorMessage(err.message);
     }
-
+    await getOwnerPageSummary();
     setWithdrawEth(0);
-    getContractBalance();
   };
 
   const onAddBeneficiary = async (e) => {
@@ -64,14 +62,13 @@ const OwnerContainer = ({ account, contract }) => {
           newBeneficiary.name
         )
         .send({ from: account });
-
-      getBeneficiariesLength();
+      await getOwnerPageSummary();
     } catch (err) {
       setErrorMessage(err.message);
     }
   };
 
-  const onUpdateBeneficiaryAmount = async (e,index,amount) => {
+  const onUpdateBeneficiaryAmount = async (e, index, amount) => {
     e.preventDefault();
     try {
       const res = await contract.methods
@@ -80,7 +77,7 @@ const OwnerContainer = ({ account, contract }) => {
           web3.utils.toWei(amount, 'ether')
         )
         .send({ from: account });
-      getBeneficiariesLength();
+      await getOwnerPageSummary();
       return res;
     } catch (err) {
       throw new Error(err.message);
@@ -91,47 +88,32 @@ const OwnerContainer = ({ account, contract }) => {
     e.preventDefault();
     try {
       const res = await contract.methods
-        .ow_RemoveBeneficiary(
-          beneficiariesStructs[index].beneficiarAddress,
-        )
+        .ow_RemoveBeneficiary(beneficiariesStructs[index].beneficiarAddress)
         .send({ from: account });
+
+      await getOwnerPageSummary();
       return res;
     } catch (err) {
       throw new Error(err.message);
     }
   };
 
-  const getContractBalance = async () => {
-    const balance = await contract.methods
-      .getContractBalance()
-      .call({ from: account });
-
-    setContractBalance(balance);
-  };
-
-  const getUnassignAmount = async () => {
+  const getOwnerPageSummary = useCallback(async () => {
     try {
-      const unassignAmount = await contract.methods
-        .ow_GetUnassignAmount()
+      const summary = await contract.methods
+        .ow_GetOwnerPageSummary()
         .call({ from: account });
+      // summary[0] = getContractBalance(),
+      // summary[1] = ow_GetUnassignAmount(),
+      // summary[2] =ow_GetBeneficiariesLength()
 
-      setUnassignAmount(unassignAmount);
+      setContractBalance(summary[0]);
+      setUnassignAmount(summary[1]);
+      setBeneficiariesLength(+summary[2]);
     } catch (err) {
       setErrorMessage(err.message);
     }
-  };
-
-  const getBeneficiariesLength = async () => {
-    try {
-      const beneficiaries = await contract.methods
-        .ow_GetBeneficiariesLength()
-        .call({ from: account });
-
-      setBeneficiariesLength(beneficiaries);
-    } catch (err) {
-      setErrorMessage(err.message);
-    }
-  };
+  }, []);
 
   const handleAddBeneficiaryChange = (e) => {
     const { name, value } = e.target;
@@ -141,7 +123,8 @@ const OwnerContainer = ({ account, contract }) => {
     }));
   };
 
-  const parseBeneficiaries = async () => {
+  const parseBeneficiaries = useCallback(async () => {
+
     const beneficiariesAddresses = await Promise.all(
       Array(parseInt(beneficiariesLength))
         .fill()
@@ -173,16 +156,16 @@ const OwnerContainer = ({ account, contract }) => {
     }
 
     console.log(beneficiariesAddresses);
-  };
+  }, [beneficiariesLength]);
 
   useEffect(() => {
-    getContractBalance();
-    getBeneficiariesLength();
-    getUnassignAmount();
-    if (beneficiariesLength) {
+    getOwnerPageSummary();
+  }, [getOwnerPageSummary]);
+
+  useEffect(() => {
       parseBeneficiaries();
-    }
-  }, [beneficiariesLength]);
+
+  }, [ parseBeneficiaries]);
 
   return (
     <div onClick={() => setErrorMessage('')}>
