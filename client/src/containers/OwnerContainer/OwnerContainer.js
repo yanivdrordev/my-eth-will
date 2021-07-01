@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useCallback } from 'react';
 import { Grid, Header, Message } from 'semantic-ui-react';
 import { Web3Context } from '../../context/web3-context';
 import BeneficiariesTable from './components/BeneficiariesTable';
@@ -34,7 +34,7 @@ const OwnerContainer = ({ account, contract }) => {
     } catch (err) {
       setErrorMessage(err.message);
     }
-
+    await getOwnerPageSummary();
     setDepositeEth(0);
   };
 
@@ -48,7 +48,7 @@ const OwnerContainer = ({ account, contract }) => {
     } catch (err) {
       setErrorMessage(err.message);
     }
-
+    await getOwnerPageSummary();
     setWithdrawEth(0);
   };
 
@@ -98,7 +98,7 @@ const OwnerContainer = ({ account, contract }) => {
     }
   };
 
-  const getOwnerPageSummary = async () => {
+  const getOwnerPageSummary = useCallback(async () => {
     try {
       const summary = await contract.methods
         .ow_GetOwnerPageSummary()
@@ -109,11 +109,11 @@ const OwnerContainer = ({ account, contract }) => {
 
       setContractBalance(summary[0]);
       setUnassignAmount(summary[1]);
-      setBeneficiariesLength(summary[2]);
+      setBeneficiariesLength(+summary[2]);
     } catch (err) {
       setErrorMessage(err.message);
     }
-  };
+  }, []);
 
   const handleAddBeneficiaryChange = (e) => {
     const { name, value } = e.target;
@@ -123,7 +123,8 @@ const OwnerContainer = ({ account, contract }) => {
     }));
   };
 
-  const parseBeneficiaries = async () => {
+  const parseBeneficiaries = useCallback(async () => {
+
     const beneficiariesAddresses = await Promise.all(
       Array(parseInt(beneficiariesLength))
         .fill()
@@ -155,17 +156,16 @@ const OwnerContainer = ({ account, contract }) => {
     }
 
     console.log(beneficiariesAddresses);
-  };
+  }, [beneficiariesLength]);
 
   useEffect(() => {
     getOwnerPageSummary();
-  }, []);
+  }, [getOwnerPageSummary]);
 
   useEffect(() => {
-    if (beneficiariesLength) {
       parseBeneficiaries();
-    }
-  }, [beneficiariesLength]);
+
+  }, [ parseBeneficiaries]);
 
   return (
     <div onClick={() => setErrorMessage('')}>

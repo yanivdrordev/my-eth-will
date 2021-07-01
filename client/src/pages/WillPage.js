@@ -45,7 +45,7 @@ const WillPage = ({ account }) => {
     };
 
     getRole();
-  }, [account]);
+  }, [account,contractAddress ,web3.eth.Contract]);
 
   if (ownerOrBeneficiary === '') {
     return 'loading';
