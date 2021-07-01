@@ -36,7 +36,6 @@ const OwnerContainer = ({ account, contract }) => {
     }
 
     setDepositeEth(0);
-    getContractBalance();
   };
 
   const onWithdraw = async (e) => {
@@ -51,7 +50,6 @@ const OwnerContainer = ({ account, contract }) => {
     }
 
     setWithdrawEth(0);
-    getContractBalance();
   };
 
   const onAddBeneficiary = async (e) => {
@@ -64,14 +62,13 @@ const OwnerContainer = ({ account, contract }) => {
           newBeneficiary.name
         )
         .send({ from: account });
-
-      getBeneficiariesLength();
+      await getOwnerPageSummary();
     } catch (err) {
       setErrorMessage(err.message);
     }
   };
 
-  const onUpdateBeneficiaryAmount = async (e,index,amount) => {
+  const onUpdateBeneficiaryAmount = async (e, index, amount) => {
     e.preventDefault();
     try {
       const res = await contract.methods
@@ -80,7 +77,7 @@ const OwnerContainer = ({ account, contract }) => {
           web3.utils.toWei(amount, 'ether')
         )
         .send({ from: account });
-      getBeneficiariesLength();
+      await getOwnerPageSummary();
       return res;
     } catch (err) {
       throw new Error(err.message);
@@ -91,43 +88,28 @@ const OwnerContainer = ({ account, contract }) => {
     e.preventDefault();
     try {
       const res = await contract.methods
-        .ow_RemoveBeneficiary(
-          beneficiariesStructs[index].beneficiarAddress,
-        )
+        .ow_RemoveBeneficiary(beneficiariesStructs[index].beneficiarAddress)
         .send({ from: account });
+
+      await getOwnerPageSummary();
       return res;
     } catch (err) {
       throw new Error(err.message);
     }
   };
 
-  const getContractBalance = async () => {
-    const balance = await contract.methods
-      .getContractBalance()
-      .call({ from: account });
-
-    setContractBalance(balance);
-  };
-
-  const getUnassignAmount = async () => {
+  const getOwnerPageSummary = async () => {
     try {
-      const unassignAmount = await contract.methods
-        .ow_GetUnassignAmount()
+      const summary = await contract.methods
+        .ow_GetOwnerPageSummary()
         .call({ from: account });
+      // summary[0] = getContractBalance(),
+      // summary[1] = ow_GetUnassignAmount(),
+      // summary[2] =ow_GetBeneficiariesLength()
 
-      setUnassignAmount(unassignAmount);
-    } catch (err) {
-      setErrorMessage(err.message);
-    }
-  };
-
-  const getBeneficiariesLength = async () => {
-    try {
-      const beneficiaries = await contract.methods
-        .ow_GetBeneficiariesLength()
-        .call({ from: account });
-
-      setBeneficiariesLength(beneficiaries);
+      setContractBalance(summary[0]);
+      setUnassignAmount(summary[1]);
+      setBeneficiariesLength(summary[2]);
     } catch (err) {
       setErrorMessage(err.message);
     }
@@ -176,9 +158,10 @@ const OwnerContainer = ({ account, contract }) => {
   };
 
   useEffect(() => {
-    getContractBalance();
-    getBeneficiariesLength();
-    getUnassignAmount();
+    getOwnerPageSummary();
+  }, []);
+
+  useEffect(() => {
     if (beneficiariesLength) {
       parseBeneficiaries();
     }
