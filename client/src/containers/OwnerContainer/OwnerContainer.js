@@ -22,6 +22,7 @@ const OwnerContainer = ({ account, contract }) => {
   const [beneficiariesLength, setBeneficiariesLength] = useState(0);
   const [errorMessage, setErrorMessage] = useState('');
   const [beneficiariesStructs, setBeneficiariesStructs] = useState([]);
+  const [deadlineTimestamp, setDeadlineTimestamp] = useState(0);
 
   const onDeposit = async (e) => {
     e.preventDefault();
@@ -106,10 +107,12 @@ const OwnerContainer = ({ account, contract }) => {
       // summary[0] = getContractBalance(),
       // summary[1] = ow_GetUnassignAmount(),
       // summary[2] =ow_GetBeneficiariesLength()
+      // summary[3] = getDeadlineTimestamp()
 
       setContractBalance(summary[0]);
       setUnassignAmount(summary[1]);
       setBeneficiariesLength(+summary[2]);
+      setDeadlineTimestamp(summary[3]);
     } catch (err) {
       setErrorMessage(err.message);
     }
@@ -124,7 +127,6 @@ const OwnerContainer = ({ account, contract }) => {
   };
 
   const parseBeneficiaries = useCallback(async () => {
-
     const beneficiariesAddresses = await Promise.all(
       Array(parseInt(beneficiariesLength))
         .fill()
@@ -163,9 +165,8 @@ const OwnerContainer = ({ account, contract }) => {
   }, [getOwnerPageSummary]);
 
   useEffect(() => {
-      parseBeneficiaries();
-
-  }, [ parseBeneficiaries]);
+    parseBeneficiaries();
+  }, [parseBeneficiaries]);
 
   return (
     <div onClick={() => setErrorMessage('')}>
@@ -179,6 +180,16 @@ const OwnerContainer = ({ account, contract }) => {
             <br />
             unassign amount :{' '}
             {web3.utils.fromWei(unassignAmount.toString(), 'ether')}
+            <br />
+            Deadline :{' '}
+            {deadlineTimestamp
+              ? new Date(deadlineTimestamp * 1000).toLocaleDateString('en-US', {
+                  weekday: 'long',
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })
+              : null}
           </Header>
         </Grid.Column>
       </Grid>

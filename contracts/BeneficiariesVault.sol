@@ -164,12 +164,13 @@ contract BeneficiariesVault {
         return unassignAmount;
     }
 
-    function ow_GetOwnerPageSummary() public view onlyOwner returns(uint, uint, uint) {
+    function ow_GetOwnerPageSummary() public view onlyOwner returns(uint, uint, uint, uint) {
 
         return (
             getContractBalance(),
             ow_GetUnassignAmount(),
-            ow_GetBeneficiariesLength()
+            ow_GetBeneficiariesLength(),
+            getDeadlineTimestamp()
         );
     }
     
