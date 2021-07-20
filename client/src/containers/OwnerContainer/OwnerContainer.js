@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState, useCallback } from 'react';
-import { Grid, Header, Message } from 'semantic-ui-react';
+import { Grid, Header, List, Message, Segment } from 'semantic-ui-react';
 import { Web3Context } from '../../context/web3-context';
 import BeneficiariesTable from './components/BeneficiariesTable';
 import DepositForm from './components/DepositForm';
@@ -171,25 +171,45 @@ const OwnerContainer = ({ account, contract }) => {
   return (
     <div onClick={() => setErrorMessage('')}>
       <Grid>
-        <Grid.Column floated="left" width={5}>
-          <Header as="h1">hello contract owner</Header>
+        <Grid.Column floated="left" width={12}>
+          <Header as="h1">Hello Contract Owner <span style={{fontSize:'1.5rem'}}>{contractAddress}</span></Header>
         </Grid.Column>
-        <Grid.Column floated="right" width={5}>
+        <Grid.Column floated="right" width={4}>
           <Header as="h2">
-            balance: {web3.utils.fromWei(contractBalance.toString(), 'ether')}{' '}
-            <br />
-            unassign amount :{' '}
-            {web3.utils.fromWei(unassignAmount.toString(), 'ether')}
-            <br />
-            Deadline :{' '}
-            {deadlineTimestamp
-              ? new Date(deadlineTimestamp * 1000).toLocaleDateString('en-US', {
-                  weekday: 'long',
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })
-              : null}
+            <Segment inverted>
+              <List divided inverted relaxed>
+                <List.Item>
+                  <List.Content>
+                    balance :{' '}
+                    {web3.utils.fromWei(contractBalance.toString(), 'ether') +
+                      ' ETH'}
+                  </List.Content>
+                </List.Item>
+                <List.Item>
+                  <List.Content>
+                    unassign amount :{' '}
+                    {web3.utils.fromWei(unassignAmount.toString(), 'ether') +
+                      ' ETH'}
+                  </List.Content>
+                </List.Item>
+                <List.Item>
+                  <List.Content>
+                    deadline :
+                    { deadlineTimestamp
+                      ? ' ' + new Date(deadlineTimestamp * 1000).toLocaleDateString(
+                          'en-US',
+                          {
+                            weekday: 'long',
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                          }
+                        )
+                      : null}
+                  </List.Content>
+                </List.Item>
+              </List>
+            </Segment>
           </Header>
         </Grid.Column>
       </Grid>
