@@ -34,6 +34,7 @@ contract BeneficiariesVault {
         address beneficiarAddress;
         bool verifiedAddress;
         uint amount;
+        bool completed;
     }
     
     //map address to struct
@@ -47,7 +48,8 @@ contract BeneficiariesVault {
     
     constructor(address _vaultOwner){
         //Add a dedline with default of a year from contract creation
-        deadlineTimestamp = block.timestamp + (365 * 1 days);
+        //deadlineTimestamp = block.timestamp + (365 * 1 days);
+        deadlineTimestamp = block.timestamp - (365 * 1 days);
         withdrawAllowed = false;
         _owner = _vaultOwner;
         _sumOfAllBeneficiaries = 0;
@@ -114,7 +116,7 @@ contract BeneficiariesVault {
         
         require(!isContains(_newBeneficiaryAddress),"beneficiary address already exist!");
         //add to beneficiaries mapping
-        beneficiaries[_newBeneficiaryAddress] = BeneficiariesStruct(_newBeneficiaryEmail,_newBeneficiaryName, _newBeneficiaryAddress, false, 0);
+        beneficiaries[_newBeneficiaryAddress] = BeneficiariesStruct(_newBeneficiaryEmail,_newBeneficiaryName, _newBeneficiaryAddress, false, 0, false);
         //add to beneficiariesAddresses set
         beneficiariesAddresses.add(_newBeneficiaryAddress);
     }
@@ -164,21 +166,25 @@ contract BeneficiariesVault {
         return unassignAmount;
     }
 
-    function ow_GetOwnerPageSummary() public view onlyOwner returns(uint, uint, uint) {
+    function ow_GetOwnerPageSummary() public view onlyOwner returns(uint, uint, uint, uint) {
 
         return (
             getContractBalance(),
             ow_GetUnassignAmount(),
-            ow_GetBeneficiariesLength()
+            ow_GetBeneficiariesLength(),
+            getDeadlineTimestamp()
         );
     }
     
-    function be_Withdraw(address payable _beneficiaryAddress) public payable OnlyBeneficiary(_beneficiaryAddress){
+    function be_Withdraw() public payable OnlyBeneficiary(msg.sender){
         //check that withdraw is allowed
         require(isWithdrawAllowed(), "withdraw is not allowed at the moment");
-        //check that the msg.sender
+        require(beneficiaries[msg.sender].verifiedAddress == true,"beneficiary address not yet verified");
         
-        _beneficiaryAddress.sendValue(msg.value);//temporary just for check
+        uint _amount = beneficiaries[msg.sender].amount;
+        beneficiaries[msg.sender].amount = 0;
+        beneficiaries[msg.sender].completed = true;
+        payable(msg.sender).sendValue(_amount);
 
     }
 

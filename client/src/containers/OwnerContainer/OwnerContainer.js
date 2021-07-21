@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState, useCallback } from 'react';
-import { Grid, Header, Message } from 'semantic-ui-react';
+import { Grid, Header, List, Message, Segment } from 'semantic-ui-react';
 import { Web3Context } from '../../context/web3-context';
 import BeneficiariesTable from './components/BeneficiariesTable';
 import DepositForm from './components/DepositForm';
@@ -22,6 +22,7 @@ const OwnerContainer = ({ account, contract }) => {
   const [beneficiariesLength, setBeneficiariesLength] = useState(0);
   const [errorMessage, setErrorMessage] = useState('');
   const [beneficiariesStructs, setBeneficiariesStructs] = useState([]);
+  const [deadlineTimestamp, setDeadlineTimestamp] = useState(0);
 
   const onDeposit = async (e) => {
     e.preventDefault();
@@ -106,10 +107,12 @@ const OwnerContainer = ({ account, contract }) => {
       // summary[0] = getContractBalance(),
       // summary[1] = ow_GetUnassignAmount(),
       // summary[2] =ow_GetBeneficiariesLength()
+      // summary[3] = getDeadlineTimestamp()
 
       setContractBalance(summary[0]);
       setUnassignAmount(summary[1]);
       setBeneficiariesLength(+summary[2]);
+      setDeadlineTimestamp(summary[3]);
     } catch (err) {
       setErrorMessage(err.message);
     }
@@ -124,7 +127,6 @@ const OwnerContainer = ({ account, contract }) => {
   };
 
   const parseBeneficiaries = useCallback(async () => {
-
     const beneficiariesAddresses = await Promise.all(
       Array(parseInt(beneficiariesLength))
         .fill()
@@ -163,22 +165,51 @@ const OwnerContainer = ({ account, contract }) => {
   }, [getOwnerPageSummary]);
 
   useEffect(() => {
-      parseBeneficiaries();
-
-  }, [ parseBeneficiaries]);
+    parseBeneficiaries();
+  }, [parseBeneficiaries]);
 
   return (
     <div onClick={() => setErrorMessage('')}>
       <Grid>
-        <Grid.Column floated="left" width={5}>
-          <Header as="h1">hello contract owner</Header>
+        <Grid.Column floated="left" width={12}>
+          <Header as="h1">Hello Contract Owner <span style={{fontSize:'1.5rem'}}>{contractAddress}</span></Header>
         </Grid.Column>
-        <Grid.Column floated="right" width={5}>
+        <Grid.Column floated="right" width={4}>
           <Header as="h2">
-            balance: {web3.utils.fromWei(contractBalance.toString(), 'ether')}{' '}
-            <br />
-            unassign amount :{' '}
-            {web3.utils.fromWei(unassignAmount.toString(), 'ether')}
+            <Segment inverted>
+              <List divided inverted relaxed>
+                <List.Item>
+                  <List.Content>
+                    balance :{' '}
+                    {web3.utils.fromWei(contractBalance.toString(), 'ether') +
+                      ' ETH'}
+                  </List.Content>
+                </List.Item>
+                <List.Item>
+                  <List.Content>
+                    unassign amount :{' '}
+                    {web3.utils.fromWei(unassignAmount.toString(), 'ether') +
+                      ' ETH'}
+                  </List.Content>
+                </List.Item>
+                <List.Item>
+                  <List.Content>
+                    deadline :
+                    { deadlineTimestamp
+                      ? ' ' + new Date(deadlineTimestamp * 1000).toLocaleDateString(
+                          'en-US',
+                          {
+                            weekday: 'long',
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                          }
+                        )
+                      : null}
+                  </List.Content>
+                </List.Item>
+              </List>
+            </Segment>
           </Header>
         </Grid.Column>
       </Grid>
