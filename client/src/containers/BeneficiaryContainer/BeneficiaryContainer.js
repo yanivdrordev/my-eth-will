@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Button, Dimmer, Loader, Segment } from 'semantic-ui-react';
+import { useCallback, useEffect, useState } from 'react';
+import { Button, Dimmer, Icon, Loader, Segment, Step } from 'semantic-ui-react';
 
 const BeneficiaryContainer = ({ account, contract, contractAddress }) => {
   const [verifiedAddress, setVerifiedAddress] = useState(null);
@@ -17,8 +17,6 @@ const BeneficiaryContainer = ({ account, contract, contractAddress }) => {
   };
   // END UTIL
 
-
-
   const verifyBeneficiaryAddress = async () => {
     try {
       await contract.methods.be_VerifyAddress().send({ from: account });
@@ -29,7 +27,7 @@ const BeneficiaryContainer = ({ account, contract, contractAddress }) => {
     }
   };
 
-  const withdraw =  async () => {
+  const withdraw = async () => {
     try {
       await contract.methods.be_Withdraw().send({ from: account });
 
@@ -39,7 +37,37 @@ const BeneficiaryContainer = ({ account, contract, contractAddress }) => {
     }
   };
 
-  const getAPIcalls = async () => {
+  const calcStepsUI = () => {
+    return (
+      <Step.Group ordered>
+        <Step active={step === 1} completed={step > 1}>
+          <Step.Content>
+            <Step.Title>Address verification</Step.Title>
+            <Step.Description>verify your account address</Step.Description>
+          </Step.Content>
+        </Step>
+
+        <Step active={step === 2} completed={step > 2}>
+          <Step.Content>
+            <Step.Title>Address verified</Step.Title>
+            <Step.Description>
+              after you verified your address can watch how many days have left
+              <br /> for the contract and the ETH amount assign to you
+            </Step.Description>
+          </Step.Content>
+        </Step>
+
+        <Step active={step === 3} completed={step === 3}>
+          <Step.Content>
+            <Step.Title>Done</Step.Title>
+            <Step.Description>withdraw completed</Step.Description>
+          </Step.Content>
+        </Step>
+      </Step.Group>
+    );
+  };
+
+  const getAPIcalls = useCallback(async () => {
     return Promise.all([
       await contract.methods
         .getBeneficiaryStruct(account)
@@ -47,9 +75,9 @@ const BeneficiaryContainer = ({ account, contract, contractAddress }) => {
       await contract.methods.isWithdrawAllowed().call({ from: account }),
       await contract.methods.getDeadlineTimestamp().call({ from: account }),
     ]);
-  };
+  }, []);
 
-  const bussinessLogic = async () => {
+  const bussinessLogic = useCallback(async () => {
     getAPIcalls()
       .then((response) => {
         const [
@@ -65,7 +93,10 @@ const BeneficiaryContainer = ({ account, contract, contractAddress }) => {
         if (!beneficiaryStructRes.verifiedAddress) {
           //address not yet verified
           setStep(1);
-        } else if (beneficiaryStructRes.verifiedAddress && !beneficiaryStructRes.completed) {
+        } else if (
+          beneficiaryStructRes.verifiedAddress &&
+          !beneficiaryStructRes.completed
+        ) {
           //address verified
           setStep(2);
           timeDifference(new Date(+deadlineTimestampRes * 1000), new Date());
@@ -77,11 +108,11 @@ const BeneficiaryContainer = ({ account, contract, contractAddress }) => {
       .catch((e) => {
         console.log(e);
       });
-  };
+  }, [getAPIcalls]);
 
   useEffect(() => {
     bussinessLogic();
-  }, []);
+  }, [bussinessLogic]);
 
   const renderContent = () => {
     switch (step) {
@@ -93,19 +124,30 @@ const BeneficiaryContainer = ({ account, contract, contractAddress }) => {
         );
       case 1:
         return (
-          <Button onClick={verifyBeneficiaryAddress}>
-            Verify your adrress
-          </Button>
+          <div>
+            {calcStepsUI()}
+            <Segment>
+              <p>
+                <strong>{contractAddress}</strong> contract owner canot assign
+                to you any ETH until you will verifiy your address.
+                <br /> it will cost you a small amount of gas.
+              </p>
+
+              <Button primary onClick={verifyBeneficiaryAddress}>
+                Verify your adrress
+              </Button>
+            </Segment>
+          </div>
         );
       case 2:
         return (
           <div>
-            <h3>address verified</h3>
+            <h3>address verified succesfully!</h3>
+            {calcStepsUI()}
             <Segment>
               <p>
-                the dedline date at the moment is:
-                {deadlineTimestamp
-                  ? ' ' +
+                {!isWithdrawAllowed
+                  ? 'the dedline date at the moment is: ' +
                     new Date(deadlineTimestamp * 1000).toLocaleDateString(
                       'en-US',
                       {
@@ -114,21 +156,26 @@ const BeneficiaryContainer = ({ account, contract, contractAddress }) => {
                         month: 'long',
                         day: 'numeric',
                       }
-                    )
-                  : null}
+                    ) +
+                    ' ' +
+                    daysLeft +
+                    ' days left for you to make a withdraw.'
+                  : 'you can withdraw.'}
                 <br />
-              </p>
-              <p>{daysLeft} days left for you to make a withdraw.</p>
-              <p>
-                <Button disabled={!isWithdrawAllowed} onClick={withdraw}>ithdraw</Button>
+                <Button disabled={!isWithdrawAllowed} onClick={withdraw}>
+                  Withdraw
+                </Button>
               </p>
             </Segment>
           </div>
         );
-        case 3:
-          return(
-            <div>withdraw completed</div>
-          )
+      case 3:
+        return (
+          <div>
+            {calcStepsUI()}
+            <Segment>withdraw completed</Segment>
+          </div>
+        );
       default:
       // code block
     }
